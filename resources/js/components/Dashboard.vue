@@ -1,144 +1,5 @@
 <template>
     <div>
-        <!--        Top Part-->
-        <div style="margin-top: 1vw; width: 100%; height: auto;">
-            <div style="width: 80%; margin-left: 10%">
-                <b-card-group style="width: 40%; margin-left: 0; " deck>
-                    <b-card
-                            style="border: 0; text-align: left;"
-                    >
-                        <img src="https://placekitten.com/380/200" style="width: 150px; height: 150px"/>
-                    </b-card>
-
-                    <b-card style="border: 0" :title=form.firstname>
-
-                        <b-card-text>{{form.email}}</b-card-text>
-                        <b-button variant="outline-primary" v-b-modal.eidtProfile>Edit profile</b-button>
-                        <b-modal id="eidtProfile" centered title="Edit Profile" size="xl"
-                                 scrollable>
-
-                            <div class="container">
-                                <h2>Edit Profile</h2>
-                                <div id="profile">
-                                    <b-form @submit="onSubmit" v-if="show">
-                                        <table>
-                                            <tr>
-                                                <td style="width: 40%;">
-                                                    <div id="left" style="margin-left: 0">
-                                                        <b-card style="border: none;">
-                                                            <b-card-body>
-                                                                <b-card-img
-                                                                        src="https://picsum.photos/400/400/?image=20"
-                                                                        start width="200px" height="200px"></b-card-img>
-                                                            </b-card-body>
-                                                            <b-card-footer style="border: 0; background: transparent">
-                                                                <b-form-file :file-name-formatter="formatNames"
-                                                                             accept=".jpg, .png"
-                                                                             :placeholder="pl"></b-form-file>
-                                                            </b-card-footer>
-                                                        </b-card>
-                                                    </div>
-                                                </td>
-                                                <td style="width: 60%;">
-                                                    <div id="right">
-                                                        <b-form-group id="input-group-1" label="Name:"
-                                                                      label-for="input-1">
-                                                            <b-form-input
-                                                                    id="input-1"
-                                                                    v-model="form.firstname"
-                                                                    required
-                                                                    :placeholder="form.firstname"
-                                                                    :invalid-feedback="invalidFeedback"
-                                                                    :state="state"
-                                                            ></b-form-input>
-                                                        </b-form-group>
-                                                        <b-form-group
-                                                                id="input-group-3"
-                                                                label="Email address:"
-                                                                label-for="input-3"
-                                                                description="We'll never share your email with anyone else."
-                                                        >
-                                                            <b-form-input
-                                                                    id="input-3"
-                                                                    v-model="form.email"
-                                                                    type="email"
-                                                                    required
-                                                                    :placeholder="form.email"
-                                                            ></b-form-input>
-                                                        </b-form-group>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr style="height: 15vw">
-                                                <td colspan="2">
-                                                    <div id="center">
-                                                        <b-form-group id="input-group-4" label="Password:"
-                                                                      label-for="input-4">
-                                                            <b-form-input
-                                                                    id="input-4"
-                                                                    type="password"
-                                                                    v-model="form.password"
-                                                                    :state="validation"
-                                                                    aria-describedby="password-help-block"
-                                                                    :placeholder="form.password"
-                                                                    required
-                                                            ></b-form-input>
-                                                            <b-form-text id="password-help-block">
-                                                                Your password must be 6-20 characters long, only letters
-                                                                and numbers.
-                                                            </b-form-text>
-                                                        </b-form-group>
-                                                        <b-form-group id="input-group-5" label="Confirm password:"
-                                                                      label-for="input-5">
-                                                            <b-form-input
-                                                                    id="input-5"
-                                                                    type="password"
-                                                                    v-model="form.confirmpassword"
-                                                                    :state="confPassValidation"
-                                                                    required
-                                                            ></b-form-input>
-                                                        </b-form-group>
-                                                        <b-form-group id="input-group-6" label="Membership:"
-                                                                      label-for="input-6">
-                                                            <b-form-select
-                                                                    id="input-6"
-                                                                    v-model="form.role"
-                                                                    :options="roles"
-                                                                    required
-                                                            ></b-form-select>
-                                                        </b-form-group>
-                                                    </div>
-
-                                                </td>
-                                            </tr>
-                                            <tr style="height: 5vw">
-                                                <td colspan="2">
-                                                    <b-button type="submit" variant="dark" style="width: 100%">Update
-                                                        profile
-                                                    </b-button>
-                                                </td>
-
-                                            </tr>
-                                        </table>
-                                    </b-form>
-
-                                </div>
-                            </div>
-
-                            <template v-slot:modal-footer="{ ok, hide }">
-                                <b-button size="md" variant="primary" @click="ok()">
-                                    Cancel
-                                </b-button>
-                            </template>
-                        </b-modal>
-                    </b-card>
-                </b-card-group>
-            </div>
-        </div>
-
-        <!--        Bottom Part-->
-
-
         <div style="width: 100%;">
             <div style="width: 80%; margin-left: 10%">
                 <p style="margin-left: 10px; margin-top: 3vw; border-bottom: black">
@@ -157,7 +18,7 @@
 
 
                 <!--Like-->
-                <div v-if="status == 'like'">
+                <div v-if="status == 'like'" style="min-height: 29%">
                     <div style="margin-top: 2vw; width: 100%; height: auto; color: black;">
                         <div>
                             <b-card-group columns>
@@ -340,7 +201,7 @@
                                                                                 <h3>No pictures in this collection!</h3>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="text-center" v-else>
+                                                                        <div class="text-center" v-else style="min-height: 80%" >
                                                                             <b-spinner label="Spinning"></b-spinner>
                                                                             <b-spinner type="grow"
                                                                                        label="Spinning"></b-spinner>
@@ -480,7 +341,7 @@
 
 
                 <!--Collection-->
-                <div v-if="status == 'collection'">
+                <div v-if="status == 'collection'" style="min-height: 29%">
 
                     <div v-if="!isColEmpty" style="margin-left: 3%; margin-right: 3%">
                         <b-card-group deck>
@@ -692,7 +553,7 @@
 
             </div>
         </div>
-        <div style="bottom: 0; margin-bottom: 0">
+        <div class="">
             <div class="" style="margin-top: 1vw; background: black">
                 <div style="width: 80%; margin-left: 10%">
                     <b-card-group>
@@ -1211,4 +1072,5 @@
     tr {
         width: 100%;
     }
+
 </style>

@@ -19,31 +19,15 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/admin/dashboard', function (){
+Route::get('/admin/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'admin']);
 
-Route::get('/dashboard', function (){
+Route::get('/dashboard', function () {
     return view('dashboard');
 });
 
-Route::get('/test', function () {
-    return \App\Utilities\Unplash::getImages('London');
-});
-
-Route::get('/test1', function () {
-    return view('test');
-});
-
-Route::get('/vue', function () {
-    return view('vue');
-});
-
 Route::get('/database', 'DatabaseController@index')->name('database');
-
-Route::get('/aaa', 'ImagesSearchController@aa');
-
-Route::resource('image', 'ImageController');
 
 Route::get('/aaa', 'ImageController@randomImage1');
 

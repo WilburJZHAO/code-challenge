@@ -7,7 +7,7 @@
 
                         <template>
                             <b-breadcrumb>
-                                <b-breadcrumb-item href="/1">
+                                <b-breadcrumb-item href="/">
                                     <b-icon icon="house-fill" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
                                 </b-breadcrumb-item>
                                 <b-breadcrumb-item href="#foo">Search</b-breadcrumb-item>
@@ -327,8 +327,8 @@
                                                     controls
                                                     indicators
                                                     no-wrap
-                                                    img-height="480"
-                                                    img-width="1024"
+                                                    img-height="480px"
+                                                    img-width="1024px"
                                             >
                                                 <b-carousel-slide
                                                         :caption="pictures[i-1][0]"
@@ -348,13 +348,15 @@
                 </div>
 
             </div>
-            <div class="text-center" v-else>
-                <b-spinner label="Spinning"></b-spinner>
-                <b-spinner type="grow" label="Spinning"></b-spinner>
-                <b-spinner variant="primary" label="Spinning"></b-spinner>
-                <b-spinner variant="primary" type="grow" label="Spinning"></b-spinner>
-                <b-spinner variant="success" label="Spinning"></b-spinner>
-                <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
+            <div class="text-center" style="min-height: 65%" v-else>
+                <div style="margin-top: 27.5%">
+                    <b-spinner label="Spinning"></b-spinner>
+                    <b-spinner type="grow" label="Spinning"></b-spinner>
+                    <b-spinner variant="primary" label="Spinning"></b-spinner>
+                    <b-spinner variant="primary" type="grow" label="Spinning"></b-spinner>
+                    <b-spinner variant="success" label="Spinning"></b-spinner>
+                    <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
+                </div>
             </div>
         </div>
         <div class="" style="margin-top: 1vw; background: black">
@@ -436,7 +438,6 @@
             }
         },
         created() {
-            this.results = document.getElementById('searchTag').dataset.results;
             this.start();
             this.fetchRandomImages();
             this.getUserLikes();
@@ -466,7 +467,7 @@
                 this.pictures = 1;
                 var vm = this;
                 let data = {"searchName": this.searchName};
-                axios.post('api/search', data)
+                axios.post('api/unsplashsearch', data)
                     .then(function (response) {
                         if (response.data[1] == 0) {
                             vm.pictures = response.data[0];
@@ -683,6 +684,9 @@
                 var url_regular = document.getElementById(idx).dataset.url_regular;
                 var unsplash_id = document.getElementById(idx).dataset.unsplash_id;
                 var collection_id = document.getElementById(cid).dataset.collection_id;
+                if(description = ""){
+                    description = "This is an image!"
+                }
                 let data = {
                     "description": description,
                     "url_raw": url_raw,

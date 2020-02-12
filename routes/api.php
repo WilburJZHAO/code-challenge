@@ -19,11 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('getUserById', 'ImageController@getUserById')->name('getUserById');
 
-Route::post('search', 'ImageController@searchImage')->name('search');
+Route::post('unsplashsearch', 'ImageController@searchImage')->name('unsplashsearch');
 
 Route::post('searchImages', 'ImageController@searchFromHome')->name('searchImages');
-
-//Route::get('search', 'ImageController@randomImage')->name('search');
 
 Route::post('like', 'ImageController@likeImage')->name('like');
 

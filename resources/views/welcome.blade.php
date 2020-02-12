@@ -12,11 +12,11 @@
 <body>
 <div>
     <div id="app">
-        <home id="searchTag" data-user_id="<?php if(auth()->user() == ""){
+        <home id="searchTag" data-user_id="<?php if (auth()->user() == "") {
             echo auth()->user();
-        }else{
+        } else {
             echo auth()->user()->id;
-        } ?>" />
+        } ?>"/>
     </div>
 </div>
 
@@ -24,6 +24,6 @@
 </html>
 @endsection
 
-<script src="{{ asset('js/app.js') }}"> </script>
+<script src="{{ asset('js/app.js') }}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="{{URL::asset('/js/home.js')}}"></script>
