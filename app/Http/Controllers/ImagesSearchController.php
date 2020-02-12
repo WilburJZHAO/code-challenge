@@ -12,14 +12,6 @@ class ImagesSearchController extends Controller
         $pics = Unplash::getRandomImages();
         return view('test')->with('pics', $pics);
 
-//             $pics = Unplash::getRandomImages();
-//             return $pics;
     }
 
-    public function aa(){
-          return view('home');
-
-    //             $pics = Unplash::getRandomImages();
-    //             return $pics;
-        }
 }

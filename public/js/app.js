@@ -2535,6 +2535,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2557,7 +2559,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.results = document.getElementById('searchTag').dataset.results;
     this.start();
     this.fetchRandomImages();
     this.getUserLikes();
@@ -2586,7 +2587,7 @@ __webpack_require__.r(__webpack_exports__);
       var data = {
         "searchName": this.searchName
       };
-      axios.post('api/search', data).then(function (response) {
+      axios.post('api/unsplashsearch', data).then(function (response) {
         if (response.data[1] == 0) {
           vm.pictures = response.data[0];
           vm.results = 0;
@@ -2789,6 +2790,11 @@ __webpack_require__.r(__webpack_exports__);
       var url_regular = document.getElementById(idx).dataset.url_regular;
       var unsplash_id = document.getElementById(idx).dataset.unsplash_id;
       var collection_id = document.getElementById(cid).dataset.collection_id;
+
+      if (description = "") {
+        description = "This is an image!";
+      }
+
       var data = {
         "description": description,
         "url_raw": url_raw,
@@ -2905,145 +2911,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -4485,12 +4352,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4535,26 +4396,12 @@ __webpack_require__.r(__webpack_exports__);
         this.isLikes[i] = false;
       }
     },
-    searchImage: function searchImage() {
-      this.pictures = 1;
-      var vm = this;
-      var data = {
-        "searchName": this.searchName
-      };
-      axios.post('api/search', data).then(function (response) {
-        if (response.data[1] == 0) {
-          vm.pictures = response.data[0];
-          vm.results = 0;
-          vm.counts++;
-        } else {
-          vm.pictures = response.data[0];
-          vm.results = 1;
-          vm.counts++;
-        }
-      })["catch"](function (error) {
-        alert(error);
-      });
-    },
+    // searchImage() {
+    //     this.pictures = 1;
+    //     var vm = this;
+    //     let data = {"searchName": this.searchName};
+    //     axios.post('api/searchImages', data);
+    // },
     isLike: function isLike() {
       this.userId = document.getElementById('searchTag').dataset.user_id;
 
@@ -4623,7 +4470,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/aaa').then(function (response) {
         vm.pictures = response.data;
       })["catch"](function (error) {
-        alert(error);
+        alert("Random Image" + error);
       });
     },
     hoverOn: function hoverOn(index) {
@@ -4643,6 +4490,12 @@ __webpack_require__.r(__webpack_exports__);
       var des_idx = "c_des" + index;
       document.getElementById(img_idx).style.visibility = "visible";
       document.getElementById(des_idx).style.visibility = "visible";
+    },
+    onHover: function onHover() {
+      document.getElementById('searchBotton').style.backgroundColor = "rgba(250,243,255,0.6)";
+    },
+    offHover: function offHover() {
+      document.getElementById('searchBotton').style.backgroundColor = "rgba(250,243,255,0.4)";
     },
     collectionHoverOff: function collectionHoverOff(index) {
       var img_idx = "c_image" + index;
@@ -42756,7 +42609,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n[data-v-57220a4e]:first-letter {\n    text-transform: capitalize;\n}\na:hover > div[data-v-57220a4e] {\n    opacity: 50%;\n}\n.container[data-v-57220a4e] {\n    width: 80%;\n}\n#profile[data-v-57220a4e] {\n    margin-top: 1vw;\n}\ntr[data-v-57220a4e] {\n    width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n[data-v-57220a4e]:first-letter {\n    text-transform: capitalize;\n}\na:hover > div[data-v-57220a4e] {\n    opacity: 50%;\n}\n.container[data-v-57220a4e] {\n    width: 80%;\n}\n#profile[data-v-57220a4e] {\n    margin-top: 1vw;\n}\ntr[data-v-57220a4e] {\n    width: 100%;\n}\n\n", ""]);
 
 // exports
 
@@ -42775,7 +42628,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.top-search-pic[data-v-fa6affac] {\n    width: 100%;\n    height: 35vw;\n    background: url(https://images.unsplash.com/photo-1543876598-5dbf85b2c12d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80) no-repeat;\n    background-size: cover;\n}\n.div-middle[data-v-fa6affac] {\n    width: 60%;\n    height: 25vw;\n    top: 16%;\n    left: 20%;\n    position: absolute;\n}\n.top-search-font[data-v-fa6affac] {\n    font-size: 400%;\n    font-weight: 700;\n    color: white;\n}\n[data-v-fa6affac]:first-letter {\n    text-transform: capitalize;\n}\na:hover > div[data-v-fa6affac] {\n    opacity: 50%;\n}\n", ""]);
+exports.push([module.i, "\n.top-search-pic[data-v-fa6affac] {\n    width: 100%;\n    height: 600px;\n    background: url(https://images.unsplash.com/photo-1543876598-5dbf85b2c12d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80) no-repeat;\n    background-size: cover;\n}\n.div-middle[data-v-fa6affac] {\n    width: 60%;\n    height: 25vw;\n    top: 16%;\n    left: 20%;\n    position: absolute;\n}\n.top-search-font[data-v-fa6affac] {\n    font-size: 400%;\n    font-weight: 700;\n    color: white;\n}\n[data-v-fa6affac]:first-letter {\n    text-transform: capitalize;\n}\na:hover > div[data-v-fa6affac] {\n    opacity: 50%;\n}\n", ""]);
 
 // exports
 
@@ -75363,7 +75216,7 @@ var render = function() {
                       [
                         _c(
                           "b-breadcrumb-item",
-                          { attrs: { href: "/1" } },
+                          { attrs: { href: "/" } },
                           [
                             _c("b-icon", {
                               attrs: {
@@ -76772,8 +76625,8 @@ var render = function() {
                                             controls: "",
                                             indicators: "",
                                             "no-wrap": "",
-                                            "img-height": "480",
-                                            "img-width": "1024"
+                                            "img-height": "480px",
+                                            "img-width": "1024px"
                                           }
                                         },
                                         [
@@ -76806,29 +76659,48 @@ var render = function() {
           ])
         : _c(
             "div",
-            { staticClass: "text-center" },
+            {
+              staticClass: "text-center",
+              staticStyle: { "min-height": "65%" }
+            },
             [
-              _c("b-spinner", { attrs: { label: "Spinning" } }),
-              _vm._v(" "),
-              _c("b-spinner", { attrs: { type: "grow", label: "Spinning" } }),
-              _vm._v(" "),
-              _c("b-spinner", {
-                attrs: { variant: "primary", label: "Spinning" }
-              }),
-              _vm._v(" "),
-              _c("b-spinner", {
-                attrs: { variant: "primary", type: "grow", label: "Spinning" }
-              }),
-              _vm._v(" "),
-              _c("b-spinner", {
-                attrs: { variant: "success", label: "Spinning" }
-              }),
-              _vm._v(" "),
-              _c("b-spinner", {
-                attrs: { variant: "success", type: "grow", label: "Spinning" }
-              })
-            ],
-            1
+              _c(
+                "div",
+                { staticStyle: { "margin-top": "27.5%" } },
+                [
+                  _c("b-spinner", { attrs: { label: "Spinning" } }),
+                  _vm._v(" "),
+                  _c("b-spinner", {
+                    attrs: { type: "grow", label: "Spinning" }
+                  }),
+                  _vm._v(" "),
+                  _c("b-spinner", {
+                    attrs: { variant: "primary", label: "Spinning" }
+                  }),
+                  _vm._v(" "),
+                  _c("b-spinner", {
+                    attrs: {
+                      variant: "primary",
+                      type: "grow",
+                      label: "Spinning"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("b-spinner", {
+                    attrs: { variant: "success", label: "Spinning" }
+                  }),
+                  _vm._v(" "),
+                  _c("b-spinner", {
+                    attrs: {
+                      variant: "success",
+                      type: "grow",
+                      label: "Spinning"
+                    }
+                  })
+                ],
+                1
+              )
+            ]
           )
     ]),
     _vm._v(" "),
@@ -77018,475 +76890,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "div",
-      { staticStyle: { "margin-top": "1vw", width: "100%", height: "auto" } },
-      [
-        _c(
-          "div",
-          { staticStyle: { width: "80%", "margin-left": "10%" } },
-          [
-            _c(
-              "b-card-group",
-              {
-                staticStyle: { width: "40%", "margin-left": "0" },
-                attrs: { deck: "" }
-              },
-              [
-                _c(
-                  "b-card",
-                  { staticStyle: { border: "0", "text-align": "left" } },
-                  [
-                    _c("img", {
-                      staticStyle: { width: "150px", height: "150px" },
-                      attrs: { src: "https://placekitten.com/380/200" }
-                    })
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "b-card",
-                  {
-                    staticStyle: { border: "0" },
-                    attrs: { title: _vm.form.firstname }
-                  },
-                  [
-                    _c("b-card-text", [_vm._v(_vm._s(_vm.form.email))]),
-                    _vm._v(" "),
-                    _c(
-                      "b-button",
-                      {
-                        directives: [
-                          {
-                            name: "b-modal",
-                            rawName: "v-b-modal.eidtProfile",
-                            modifiers: { eidtProfile: true }
-                          }
-                        ],
-                        attrs: { variant: "outline-primary" }
-                      },
-                      [_vm._v("Edit profile")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-modal",
-                      {
-                        attrs: {
-                          id: "eidtProfile",
-                          centered: "",
-                          title: "Edit Profile",
-                          size: "xl",
-                          scrollable: ""
-                        },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "modal-footer",
-                            fn: function(ref) {
-                              var ok = ref.ok
-                              var hide = ref.hide
-                              return [
-                                _c(
-                                  "b-button",
-                                  {
-                                    attrs: { size: "md", variant: "primary" },
-                                    on: {
-                                      click: function($event) {
-                                        return ok()
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                                Cancel\n                            "
-                                    )
-                                  ]
-                                )
-                              ]
-                            }
-                          }
-                        ])
-                      },
-                      [
-                        _c("div", { staticClass: "container" }, [
-                          _c("h2", [_vm._v("Edit Profile")]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { attrs: { id: "profile" } },
-                            [
-                              _vm.show
-                                ? _c(
-                                    "b-form",
-                                    { on: { submit: _vm.onSubmit } },
-                                    [
-                                      _c("table", [
-                                        _c("tr", [
-                                          _c(
-                                            "td",
-                                            { staticStyle: { width: "40%" } },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticStyle: {
-                                                    "margin-left": "0"
-                                                  },
-                                                  attrs: { id: "left" }
-                                                },
-                                                [
-                                                  _c(
-                                                    "b-card",
-                                                    {
-                                                      staticStyle: {
-                                                        border: "none"
-                                                      }
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "b-card-body",
-                                                        [
-                                                          _c("b-card-img", {
-                                                            attrs: {
-                                                              src:
-                                                                "https://picsum.photos/400/400/?image=20",
-                                                              start: "",
-                                                              width: "200px",
-                                                              height: "200px"
-                                                            }
-                                                          })
-                                                        ],
-                                                        1
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "b-card-footer",
-                                                        {
-                                                          staticStyle: {
-                                                            border: "0",
-                                                            background:
-                                                              "transparent"
-                                                          }
-                                                        },
-                                                        [
-                                                          _c("b-form-file", {
-                                                            attrs: {
-                                                              "file-name-formatter":
-                                                                _vm.formatNames,
-                                                              accept:
-                                                                ".jpg, .png",
-                                                              placeholder:
-                                                                _vm.pl
-                                                            }
-                                                          })
-                                                        ],
-                                                        1
-                                                      )
-                                                    ],
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "td",
-                                            { staticStyle: { width: "60%" } },
-                                            [
-                                              _c(
-                                                "div",
-                                                { attrs: { id: "right" } },
-                                                [
-                                                  _c(
-                                                    "b-form-group",
-                                                    {
-                                                      attrs: {
-                                                        id: "input-group-1",
-                                                        label: "Name:",
-                                                        "label-for": "input-1"
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("b-form-input", {
-                                                        attrs: {
-                                                          id: "input-1",
-                                                          required: "",
-                                                          placeholder:
-                                                            _vm.form.firstname,
-                                                          "invalid-feedback":
-                                                            _vm.invalidFeedback,
-                                                          state: _vm.state
-                                                        },
-                                                        model: {
-                                                          value:
-                                                            _vm.form.firstname,
-                                                          callback: function(
-                                                            $$v
-                                                          ) {
-                                                            _vm.$set(
-                                                              _vm.form,
-                                                              "firstname",
-                                                              $$v
-                                                            )
-                                                          },
-                                                          expression:
-                                                            "form.firstname"
-                                                        }
-                                                      })
-                                                    ],
-                                                    1
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "b-form-group",
-                                                    {
-                                                      attrs: {
-                                                        id: "input-group-3",
-                                                        label: "Email address:",
-                                                        "label-for": "input-3",
-                                                        description:
-                                                          "We'll never share your email with anyone else."
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("b-form-input", {
-                                                        attrs: {
-                                                          id: "input-3",
-                                                          type: "email",
-                                                          required: "",
-                                                          placeholder:
-                                                            _vm.form.email
-                                                        },
-                                                        model: {
-                                                          value: _vm.form.email,
-                                                          callback: function(
-                                                            $$v
-                                                          ) {
-                                                            _vm.$set(
-                                                              _vm.form,
-                                                              "email",
-                                                              $$v
-                                                            )
-                                                          },
-                                                          expression:
-                                                            "form.email"
-                                                        }
-                                                      })
-                                                    ],
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ]
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "tr",
-                                          { staticStyle: { height: "15vw" } },
-                                          [
-                                            _c(
-                                              "td",
-                                              { attrs: { colspan: "2" } },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  { attrs: { id: "center" } },
-                                                  [
-                                                    _c(
-                                                      "b-form-group",
-                                                      {
-                                                        attrs: {
-                                                          id: "input-group-4",
-                                                          label: "Password:",
-                                                          "label-for": "input-4"
-                                                        }
-                                                      },
-                                                      [
-                                                        _c("b-form-input", {
-                                                          attrs: {
-                                                            id: "input-4",
-                                                            type: "password",
-                                                            state:
-                                                              _vm.validation,
-                                                            "aria-describedby":
-                                                              "password-help-block",
-                                                            placeholder:
-                                                              _vm.form.password,
-                                                            required: ""
-                                                          },
-                                                          model: {
-                                                            value:
-                                                              _vm.form.password,
-                                                            callback: function(
-                                                              $$v
-                                                            ) {
-                                                              _vm.$set(
-                                                                _vm.form,
-                                                                "password",
-                                                                $$v
-                                                              )
-                                                            },
-                                                            expression:
-                                                              "form.password"
-                                                          }
-                                                        }),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "b-form-text",
-                                                          {
-                                                            attrs: {
-                                                              id:
-                                                                "password-help-block"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "\n                                                            Your password must be 6-20 characters long, only letters\n                                                            and numbers.\n                                                        "
-                                                            )
-                                                          ]
-                                                        )
-                                                      ],
-                                                      1
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "b-form-group",
-                                                      {
-                                                        attrs: {
-                                                          id: "input-group-5",
-                                                          label:
-                                                            "Confirm password:",
-                                                          "label-for": "input-5"
-                                                        }
-                                                      },
-                                                      [
-                                                        _c("b-form-input", {
-                                                          attrs: {
-                                                            id: "input-5",
-                                                            type: "password",
-                                                            state:
-                                                              _vm.confPassValidation,
-                                                            required: ""
-                                                          },
-                                                          model: {
-                                                            value:
-                                                              _vm.form
-                                                                .confirmpassword,
-                                                            callback: function(
-                                                              $$v
-                                                            ) {
-                                                              _vm.$set(
-                                                                _vm.form,
-                                                                "confirmpassword",
-                                                                $$v
-                                                              )
-                                                            },
-                                                            expression:
-                                                              "form.confirmpassword"
-                                                          }
-                                                        })
-                                                      ],
-                                                      1
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "b-form-group",
-                                                      {
-                                                        attrs: {
-                                                          id: "input-group-6",
-                                                          label: "Membership:",
-                                                          "label-for": "input-6"
-                                                        }
-                                                      },
-                                                      [
-                                                        _c("b-form-select", {
-                                                          attrs: {
-                                                            id: "input-6",
-                                                            options: _vm.roles,
-                                                            required: ""
-                                                          },
-                                                          model: {
-                                                            value:
-                                                              _vm.form.role,
-                                                            callback: function(
-                                                              $$v
-                                                            ) {
-                                                              _vm.$set(
-                                                                _vm.form,
-                                                                "role",
-                                                                $$v
-                                                              )
-                                                            },
-                                                            expression:
-                                                              "form.role"
-                                                          }
-                                                        })
-                                                      ],
-                                                      1
-                                                    )
-                                                  ],
-                                                  1
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "tr",
-                                          { staticStyle: { height: "5vw" } },
-                                          [
-                                            _c(
-                                              "td",
-                                              { attrs: { colspan: "2" } },
-                                              [
-                                                _c(
-                                                  "b-button",
-                                                  {
-                                                    staticStyle: {
-                                                      width: "100%"
-                                                    },
-                                                    attrs: {
-                                                      type: "submit",
-                                                      variant: "dark"
-                                                    }
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      "Update\n                                                    profile\n                                                "
-                                                    )
-                                                  ]
-                                                )
-                                              ],
-                                              1
-                                            )
-                                          ]
-                                        )
-                                      ])
-                                    ]
-                                  )
-                                : _vm._e()
-                            ],
-                            1
-                          )
-                        ])
-                      ]
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]
-    ),
-    _vm._v(" "),
     _c("div", { staticStyle: { width: "100%" } }, [
       _c("div", { staticStyle: { width: "80%", "margin-left": "10%" } }, [
         _c(
@@ -77541,7 +76944,7 @@ var render = function() {
       [
         _c("div", { staticStyle: { width: "80%", "margin-left": "10%" } }, [
           _vm.status == "like"
-            ? _c("div", [
+            ? _c("div", { staticStyle: { "min-height": "29%" } }, [
                 _c(
                   "div",
                   {
@@ -78642,7 +78045,11 @@ var render = function() {
                                                                               "div",
                                                                               {
                                                                                 staticClass:
-                                                                                  "text-center"
+                                                                                  "text-center",
+                                                                                staticStyle: {
+                                                                                  "min-height":
+                                                                                    "80%"
+                                                                                }
                                                                               },
                                                                               [
                                                                                 _c(
@@ -78928,7 +78335,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.status == "collection"
-            ? _c("div", [
+            ? _c("div", { staticStyle: { "min-height": "29%" } }, [
                 !_vm.isColEmpty
                   ? _c(
                       "div",
@@ -79755,7 +79162,7 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("div", { staticStyle: { bottom: "0", "margin-bottom": "0" } }, [
+    _c("div", {}, [
       _c("div", { staticStyle: { "margin-top": "1vw", background: "black" } }, [
         _c(
           "div",
@@ -79944,62 +79351,55 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticStyle: { "margin-top": "-22px", color: "white" } }, [
     _c("div", { staticClass: "top-search-pic" }, [
-      _c("div", { staticClass: "div-middle" }, [
-        _c("span", { staticClass: "top-search-font" }, [_vm._v("PicSky")]),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "form",
-          {
-            on: {
-              submit: function($event) {
-                return _vm.searchImage()
+      _c(
+        "div",
+        { staticClass: "div-middle" },
+        [
+          _c(
+            "span",
+            {
+              staticClass: "top-search-font",
+              staticStyle: { "margin-top": "3.5vw" }
+            },
+            [_vm._v("PicSky")]
+          ),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "b-button",
+            {
+              staticStyle: {
+                width: "60%",
+                color: "white",
+                background: "rgba(250,243,255,0.4)"
+              },
+              attrs: {
+                href: "search",
+                id: "searchBotton",
+                variant: "outline-secondary",
+                size: "lg"
+              },
+              on: {
+                mouseover: function($event) {
+                  return _vm.onHover()
+                },
+                mouseleave: function($event) {
+                  return _vm.offHover()
+                }
               }
-            }
-          },
-          [
-            _c(
-              "b-input-group",
-              { attrs: { size: "lg" } },
-              [
-                _c(
-                  "b-input-group-prepend",
-                  { attrs: { "is-text": "" } },
-                  [_c("b-icon-search")],
-                  1
-                ),
-                _vm._v(" "),
-                _c("b-form-input", {
-                  attrs: {
-                    type: "search",
-                    name: "search",
-                    placeholder: "Search your favorite photos"
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.clearInput($event)
-                    }
-                  },
-                  model: {
-                    value: _vm.searchName,
-                    callback: function($$v) {
-                      _vm.searchName = $$v
-                    },
-                    expression: "searchName"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v("Trending: flower, wallpapers, backgrounds, happy, love")
-        ])
-      ])
+            },
+            [_vm._v("Start Searching Wonderful Universe")]
+          ),
+          _vm._v(" "),
+          _c("p"),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v("Trending: flower, wallpapers, backgrounds, happy, love")
+          ])
+        ],
+        1
+      )
     ]),
     _vm._v(" "),
     _vm._m(1),
@@ -81403,7 +80803,7 @@ var render = function() {
                 [
                   _c("b-card-text", [
                     _vm._v(
-                      "\n                        PicSky provides high quality and completely free stock photos. All photos are easy to discover through our discover pages.\n                    "
+                      "\n                        PicSky provides high quality and completely free stock photos. All photos are easy to\n                        discover through our discover pages.\n                    "
                     )
                   ])
                 ],
@@ -81422,7 +80822,7 @@ var render = function() {
                 [
                   _c("b-card-text", [
                     _vm._v(
-                      "\n                        By providing free stock photos PicSky helps people all over the world to create beautiful products and designs easily.\n                    "
+                      "\n                        By providing free stock photos PicSky helps people all over the world to create beautiful\n                        products and designs easily.\n                    "
                     )
                   ])
                 ],
@@ -81556,15 +80956,19 @@ var staticRenderFns = [
         "h1",
         {
           staticStyle: {
-            "margin-top": "16px",
+            "margin-top": "2.5vw",
             "margin-bottom": "0",
-            "font-size": "18px"
+            "font-size": "25px"
           }
         },
         [_vm._v("A powerful pictures searching\n                    engine")]
       ),
       _vm._v(" "),
-      _c("p")
+      _c("p"),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v("PicSky provides high quality and completely free stock photos.")
+      ])
     ])
   },
   function() {

@@ -5,23 +5,15 @@
         <div class="top-search-pic">
 
             <div class="div-middle">
-                <span class="top-search-font">PicSky</span>
+                <span style="margin-top: 3.5vw;" class="top-search-font">PicSky</span>
                 <div>
-                    <h1 style="margin-top: 16px; margin-bottom: 0; font-size: 18px">A powerful pictures searching
+                    <h1 style="margin-top: 2.5vw; margin-bottom: 0; font-size: 25px">A powerful pictures searching
                         engine</h1>
-                    <p>  </p>
+                    <p></p>
+                    <p>PicSky provides high quality and completely free stock photos.</p>
                 </div>
-                <form @submit="searchImage()">
-                    <b-input-group size="lg">
-                        <b-input-group-prepend is-text>
-                            <b-icon-search></b-icon-search>
-                        </b-input-group-prepend>
-                        <b-form-input type="search" name="search" v-model="searchName"
-                                      placeholder="Search your favorite photos"
-                                      @click="clearInput($event)"></b-form-input>
-                    </b-input-group>
-                </form>
-
+                <b-button href="search" id="searchBotton" @mouseover="onHover()" @mouseleave="offHover()" variant="outline-secondary" size="lg" style="width: 60%; color: white; background: rgba(250,243,255,0.4);">Start Searching Wonderful Universe</b-button>
+                <p></p>
                 <p>Trending: flower, wallpapers, backgrounds, happy, love</p>
             </div>
 
@@ -366,13 +358,15 @@
                 <b-card-group>
                     <b-card style="border: 0; background: black; color: white">
                         <b-card-text>
-                            PicSky provides high quality and completely free stock photos. All photos are easy to discover through our discover pages.
+                            PicSky provides high quality and completely free stock photos. All photos are easy to
+                            discover through our discover pages.
                         </b-card-text>
                     </b-card>
 
                     <b-card style="border: 0; background: black; color: white">
                         <b-card-text>
-                            By providing free stock photos PicSky helps people all over the world to create beautiful products and designs easily.
+                            By providing free stock photos PicSky helps people all over the world to create beautiful
+                            products and designs easily.
                         </b-card-text>
                     </b-card>
 
@@ -463,25 +457,13 @@
                 }
             },
 
-            searchImage() {
-                this.pictures = 1;
-                var vm = this;
-                let data = {"searchName": this.searchName};
-                axios.post('api/search', data)
-                    .then(function (response) {
-                        if (response.data[1] == 0) {
-                            vm.pictures = response.data[0];
-                            vm.results = 0;
-                            vm.counts++;
-                        } else {
-                            vm.pictures = response.data[0];
-                            vm.results = 1;
-                            vm.counts++;
-                        }
-                    }).catch(function (error) {
-                    alert(error);
-                });
-            },
+            // searchImage() {
+            //     this.pictures = 1;
+            //     var vm = this;
+            //     let data = {"searchName": this.searchName};
+            //     axios.post('api/searchImages', data);
+            // },
+
             isLike() {
                 this.userId = document.getElementById('searchTag').dataset.user_id;
                 if (this.userId != "") {
@@ -548,7 +530,7 @@
                     .then(function (response) {
                         vm.pictures = response.data;
                     }).catch(function (error) {
-                    alert(error);
+                    alert("Random Image"+error);
                 });
             }
             ,
@@ -573,6 +555,14 @@
                 document.getElementById(des_idx).style.visibility = "visible";
             }
             ,
+
+            onHover(){
+                document.getElementById('searchBotton').style.backgroundColor = "rgba(250,243,255,0.6)";
+            },
+
+            offHover(){
+                document.getElementById('searchBotton').style.backgroundColor = "rgba(250,243,255,0.4)";
+            },
 
             collectionHoverOff(index) {
                 var img_idx = "c_image" + index;
@@ -814,7 +804,7 @@
 <style scoped>
     .top-search-pic {
         width: 100%;
-        height: 35vw;
+        height: 600px;
         background: url(https://images.unsplash.com/photo-1543876598-5dbf85b2c12d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80) no-repeat;
         background-size: cover;
     }

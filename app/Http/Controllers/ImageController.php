@@ -8,6 +8,7 @@ use App\Image;
 use App\Like;
 use App\Collection;
 use App\Utilities\Unplash;
+use Symfony\Component\Console\Input\Input;
 
 class ImageController extends Controller
 {
@@ -47,7 +48,6 @@ class ImageController extends Controller
 //         }
     }
 
-    //添加collect
     public function create()
     {
         $data = Image::where('id', 1)->get();
@@ -55,19 +55,7 @@ class ImageController extends Controller
         return view('imageCreate', compact('data'));
     }
 
-    //显示collect
-    public function show()
-    {
 
-    }
-
-    //删除单个collect
-    public function destroy()
-    {
-
-    }
-
-    //更新collect
     public function update(Request $request, $id)
     {
         $input = $request->except('_token', '_method');
@@ -79,7 +67,6 @@ class ImageController extends Controller
         }
     }
 
-    //编辑collect
     public function edit($id)
     {
         $field = Image::find($id);
@@ -131,7 +118,6 @@ class ImageController extends Controller
 
     }
 
-
     public function addToCollection(Request $request)
     {
             $r = false;
@@ -162,13 +148,6 @@ class ImageController extends Controller
         } else {
             return [$result, 1];
         }
-    }
-
-    public function searchFromHome(Request $request)
-    {
-        $search = $request['searchName'];
-        $result = Unplash::getImages($search);
-            return view('search') -> with ('results', $result);
     }
 
     public function randomImage()
