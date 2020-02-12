@@ -30,4 +30,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'unplash' => [
+        'unplash_api_key' => env('UNSPLASH_API_KEY'),
+    ]
+
 ];
