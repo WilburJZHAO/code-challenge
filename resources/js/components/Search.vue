@@ -346,59 +346,7 @@
                         </b-card-group>
                     </div>
                 </div>
-                <div class="" style="margin-top: 1vw; background: black">
-                    <div style="width: 80%; margin-left: 10%">
-                        <b-card-group>
-                            <b-card style="border: 0; background: black; color: white">
-                                <b-card-text>
-                                    PicSky provides high quality and completely free stock photos. All photos are easy
-                                    to discover through our discover pages.
-                                </b-card-text>
-                            </b-card>
 
-                            <b-card style="border: 0; background: black; color: white">
-                                <b-card-text>
-                                    By providing free stock photos PicSky helps people all over the world to create
-                                    beautiful products and designs easily.
-                                </b-card-text>
-                            </b-card>
-
-                            <b-card style="border: 0; background: black; color: white" title="Contact us">
-                                <b-card-text>
-                                    <b-icon-phone></b-icon-phone>
-                                    Tel: 0414888888<br/>
-                                    <b-icon-envelope></b-icon-envelope>
-                                    Email: picskyteam@gmail.com<br/>
-                                    <b-icon-house></b-icon-house>
-                                    Address: Adelaide, SA, 5000<br/>
-                                </b-card-text>
-                            </b-card>
-                        </b-card-group>
-                    </div>
-                </div>
-                <footer style="margin-bottom: -22px">
-                    <div style="width: 80%; margin-left: 10%">
-                        <b-card-group>
-                            <b-card style="border: 0; background: transparent; color: black">
-                                <b-card-text>
-                                    Copyright © 2020 PicSky Inc. All rights reserved.
-                                </b-card-text>
-                            </b-card>
-
-                            <b-card style="border: 0; background: transparent; color: black">
-                                <b-card-text>
-                                    Terms of Use | Privacy Policy | Legal | Customer Service
-                                </b-card-text>
-                            </b-card>
-
-                            <b-card style="border: 0; background: transparent; color: black">
-                                <b-card-text>
-                                    Developed by <b>Wilbur</b>, Powered by <b>Verto Group</b>
-                                </b-card-text>
-                            </b-card>
-                        </b-card-group>
-                    </div>
-                </footer>
             </div>
             <div class="text-center" v-else>
                 <b-spinner label="Spinning"></b-spinner>
@@ -409,7 +357,59 @@
                 <b-spinner variant="success" type="grow" label="Spinning"></b-spinner>
             </div>
         </div>
+        <div class="" style="margin-top: 1vw; background: black">
+            <div style="width: 80%; margin-left: 10%">
+                <b-card-group>
+                    <b-card style="border: 0; background: black; color: white">
+                        <b-card-text>
+                            PicSky provides high quality and completely free stock photos. All photos are easy
+                            to discover through our discover pages.
+                        </b-card-text>
+                    </b-card>
 
+                    <b-card style="border: 0; background: black; color: white">
+                        <b-card-text>
+                            By providing free stock photos PicSky helps people all over the world to create
+                            beautiful products and designs easily.
+                        </b-card-text>
+                    </b-card>
+
+                    <b-card style="border: 0; background: black; color: white" title="Contact us">
+                        <b-card-text>
+                            <b-icon-phone></b-icon-phone>
+                            Tel: 0414888888<br/>
+                            <b-icon-envelope></b-icon-envelope>
+                            Email: picskyteam@gmail.com<br/>
+                            <b-icon-house></b-icon-house>
+                            Address: Adelaide, SA, 5000<br/>
+                        </b-card-text>
+                    </b-card>
+                </b-card-group>
+            </div>
+        </div>
+        <footer style="margin-bottom: -22px">
+            <div style="width: 80%; margin-left: 10%">
+                <b-card-group>
+                    <b-card style="border: 0; background: transparent; color: black">
+                        <b-card-text>
+                            Copyright © 2020 PicSky Inc. All rights reserved.
+                        </b-card-text>
+                    </b-card>
+
+                    <b-card style="border: 0; background: transparent; color: black">
+                        <b-card-text>
+                            Terms of Use | Privacy Policy | Legal | Customer Service
+                        </b-card-text>
+                    </b-card>
+
+                    <b-card style="border: 0; background: transparent; color: black">
+                        <b-card-text>
+                            Developed by <b>Wilbur</b>, Powered by <b>Verto Group</b>
+                        </b-card-text>
+                    </b-card>
+                </b-card-group>
+            </div>
+        </footer>
     </div>
 </template>
 
@@ -436,6 +436,7 @@
             }
         },
         created() {
+            this.results = document.getElementById('searchTag').dataset.results;
             this.start();
             this.fetchRandomImages();
             this.getUserLikes();

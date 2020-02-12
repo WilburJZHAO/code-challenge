@@ -23,9 +23,9 @@ Route::get('/admin/dashboard', function (){
     return view('dashboard');
 })->middleware(['auth', 'admin']);
 
-Route::get('/vip/dashboard', function (){
+Route::get('/dashboard', function (){
     return view('dashboard');
-})->middleware(['auth', 'vip']);
+});
 
 Route::get('/test', function () {
     return \App\Utilities\Unplash::getImages('London');
@@ -41,23 +41,13 @@ Route::get('/vue', function () {
 
 Route::get('/database', 'DatabaseController@index')->name('database');
 
-Route::get('/1', 'ImagesSearchController@imageSearch');
-
 Route::get('/aaa', 'ImagesSearchController@aa');
 
 Route::resource('image', 'ImageController');
 
-
-
-Route::post('/download', 'ImageController@getDownload');
-
-//Route::post('addImage', 'ImageController@addImage')->name('addImage');
-
-//Route::post('addToCollection', 'ImageController@addToCollection')->name('addToCollection');
-
 Route::get('/aaa', 'ImageController@randomImage1');
 
-Route::get('/vue2', function () {
+Route::get('/search', function () {
     return view('search');
 });
 
@@ -65,8 +55,4 @@ Route::post('getUserLikes', 'ImageController@getUserLikes')->name('getUserLikes'
 
 Route::get('/editProfile', function () {
     return view('editProfile');
-});
-
-Route::get('/AppHome', function () {
-    return view('AppHome');
 });

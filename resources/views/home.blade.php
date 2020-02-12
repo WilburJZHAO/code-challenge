@@ -11,8 +11,13 @@
 </head>
 <body>
 <div>
-        <div id="app">
-            <home id="searchTag"/>
+    <div style="height: 1000px;">{{auth()->user()->id}}</div>
+        <div id="app" >
+            <home id="searchTag" data-user_id="<?php if(auth()->user() == ""){
+                echo auth()->user();
+            }else{
+                echo auth()->user()->id;
+            } ?>" />
         </div>
 </div>
 

@@ -43,10 +43,8 @@ class LoginController extends Controller
         switch (auth()->user()->role){
             case 'admin':
                 return 'admin/dashboard';
-            case 'vip':
-                return 'vip/dashboard';
             default:
-                return '/home';
+                return '/';
         }
     }
 }

@@ -9,18 +9,19 @@
                 <div>
                     <h1 style="margin-top: 16px; margin-bottom: 0; font-size: 18px">A powerful pictures searching
                         engine</h1>
-                    <p>Escape from your busy life, Search colourful world!</p>
+                    <p>  </p>
                 </div>
-                <form action="'search'" method="post">
-
+                <form @submit="searchImage()">
                     <b-input-group size="lg">
                         <b-input-group-prepend is-text>
                             <b-icon-search></b-icon-search>
                         </b-input-group-prepend>
-                        <b-form-input type="search" name="search"
-                                      placeholder="Search your favorite photos"></b-form-input>
+                        <b-form-input type="search" name="search" v-model="searchName"
+                                      placeholder="Search your favorite photos"
+                                      @click="clearInput($event)"></b-form-input>
                     </b-input-group>
                 </form>
+
                 <p>Trending: flower, wallpapers, backgrounds, happy, love</p>
             </div>
 
@@ -532,7 +533,6 @@
                     axios.post('/getUserLikes', data)
                         .then(function (response) {
                             vm.likes = response.data;
-                            console.log(vm.likes);
                         }).catch(function (error) {
                         alert(error);
                     });
@@ -584,7 +584,6 @@
 
             likeImage(index) {
                 this.userId = document.getElementById('searchTag').dataset.user_id;
-                console.log(this.userId);
                 if (this.userId == "") {
                     window.location.href = '/login';
                 } else {

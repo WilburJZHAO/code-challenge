@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Image;
 use App\Like;
@@ -163,6 +164,13 @@ class ImageController extends Controller
         }
     }
 
+    public function searchFromHome(Request $request)
+    {
+        $search = $request['searchName'];
+        $result = Unplash::getImages($search);
+            return view('search') -> with ('results', $result);
+    }
+
     public function randomImage()
     {
         $result = Unplash::getRandomImages();
@@ -188,5 +196,6 @@ class ImageController extends Controller
         $result = Image::whereIn('id', Like::where('user_id', $user_id)->get('image_id'))->get();
         return $result;
     }
+
 
 }

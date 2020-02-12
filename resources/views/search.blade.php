@@ -12,12 +12,13 @@ use App\User;
         <title>Search</title>
     </head>
     <body>
+    <div><?php $results ?></div>
     <div id="app">
-        <search id="searchTag"  data-user_id="<?php if(auth()->user() == ""){
+        <search id="searchTag" data-user_id="<?php if(auth()->user() == ""){
             echo auth()->user();
         }else{
             echo auth()->user()->id;
-        } ?>" />
+        } ?>"  data-results="<?php $results ?>"/>
     </div>
     </body>
     </html>

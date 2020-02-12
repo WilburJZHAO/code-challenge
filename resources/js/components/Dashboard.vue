@@ -10,11 +10,127 @@
                         <img src="https://placekitten.com/380/200" style="width: 150px; height: 150px"/>
                     </b-card>
 
-                    <b-card style="border: 0" :title=userId.name>
+                    <b-card style="border: 0" :title=form.firstname>
 
-                        <b-card-text>{{userId.email}}</b-card-text>
-                        <b-button @click="" variant="outline-primary">Edit profile</b-button>
+                        <b-card-text>{{form.email}}</b-card-text>
+                        <b-button variant="outline-primary" v-b-modal.eidtProfile>Edit profile</b-button>
+                        <b-modal id="eidtProfile" centered title="Edit Profile" size="xl"
+                                 scrollable>
 
+                            <div class="container">
+                                <h2>Edit Profile</h2>
+                                <div id="profile">
+                                    <b-form @submit="onSubmit" v-if="show">
+                                        <table>
+                                            <tr>
+                                                <td style="width: 40%;">
+                                                    <div id="left" style="margin-left: 0">
+                                                        <b-card style="border: none;">
+                                                            <b-card-body>
+                                                                <b-card-img
+                                                                        src="https://picsum.photos/400/400/?image=20"
+                                                                        start width="200px" height="200px"></b-card-img>
+                                                            </b-card-body>
+                                                            <b-card-footer style="border: 0; background: transparent">
+                                                                <b-form-file :file-name-formatter="formatNames"
+                                                                             accept=".jpg, .png"
+                                                                             :placeholder="pl"></b-form-file>
+                                                            </b-card-footer>
+                                                        </b-card>
+                                                    </div>
+                                                </td>
+                                                <td style="width: 60%;">
+                                                    <div id="right">
+                                                        <b-form-group id="input-group-1" label="Name:"
+                                                                      label-for="input-1">
+                                                            <b-form-input
+                                                                    id="input-1"
+                                                                    v-model="form.firstname"
+                                                                    required
+                                                                    :placeholder="form.firstname"
+                                                                    :invalid-feedback="invalidFeedback"
+                                                                    :state="state"
+                                                            ></b-form-input>
+                                                        </b-form-group>
+                                                        <b-form-group
+                                                                id="input-group-3"
+                                                                label="Email address:"
+                                                                label-for="input-3"
+                                                                description="We'll never share your email with anyone else."
+                                                        >
+                                                            <b-form-input
+                                                                    id="input-3"
+                                                                    v-model="form.email"
+                                                                    type="email"
+                                                                    required
+                                                                    :placeholder="form.email"
+                                                            ></b-form-input>
+                                                        </b-form-group>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 15vw">
+                                                <td colspan="2">
+                                                    <div id="center">
+                                                        <b-form-group id="input-group-4" label="Password:"
+                                                                      label-for="input-4">
+                                                            <b-form-input
+                                                                    id="input-4"
+                                                                    type="password"
+                                                                    v-model="form.password"
+                                                                    :state="validation"
+                                                                    aria-describedby="password-help-block"
+                                                                    :placeholder="form.password"
+                                                                    required
+                                                            ></b-form-input>
+                                                            <b-form-text id="password-help-block">
+                                                                Your password must be 6-20 characters long, only letters
+                                                                and numbers.
+                                                            </b-form-text>
+                                                        </b-form-group>
+                                                        <b-form-group id="input-group-5" label="Confirm password:"
+                                                                      label-for="input-5">
+                                                            <b-form-input
+                                                                    id="input-5"
+                                                                    type="password"
+                                                                    v-model="form.confirmpassword"
+                                                                    :state="confPassValidation"
+                                                                    required
+                                                            ></b-form-input>
+                                                        </b-form-group>
+                                                        <b-form-group id="input-group-6" label="Membership:"
+                                                                      label-for="input-6">
+                                                            <b-form-select
+                                                                    id="input-6"
+                                                                    v-model="form.role"
+                                                                    :options="roles"
+                                                                    required
+                                                            ></b-form-select>
+                                                        </b-form-group>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 5vw">
+                                                <td colspan="2">
+                                                    <b-button type="submit" variant="dark" style="width: 100%">Update
+                                                        profile
+                                                    </b-button>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </b-form>
+
+                                </div>
+                            </div>
+
+                            <template v-slot:modal-footer="{ ok, hide }">
+                                <b-button size="md" variant="primary" @click="ok()">
+                                    Cancel
+                                </b-button>
+                            </template>
+                        </b-modal>
                     </b-card>
                 </b-card-group>
             </div>
@@ -31,26 +147,13 @@
                     <b-icon-book style="color: black"></b-icon-book>&nbsp;<b-link @click="profileSwitch('collection')">
                     My collections
                 </b-link>&nbsp;&nbsp;&nbsp;
-                    <b-icon-search style="color: black"></b-icon-search>&nbsp;<b-link @click="profileSwitch('search')">
-                    Search more pictures
-                </b-link>
                 </p>
             </div>
             <hr>
         </div>
 
-        <div style="margin-top: 2vw; width: 100%; height: auto;">
+        <div style="margin-top: 2vw; width: 100%; height: auto">
             <div style="width: 80%; margin-left: 10%">
-
-                <!--Search-->
-                <div v-if="status == 'search'">
-                    <b-input-group size="lg">
-                        <b-input-group-prepend is-text>
-                            <b-icon-search></b-icon-search>
-                        </b-input-group-prepend>
-                        <b-form-input type="search" placeholder="Search your favorite photos"></b-form-input>
-                    </b-input-group>
-                </div>
 
 
                 <!--Like-->
@@ -543,6 +646,45 @@
                     </div>
                     <div v-if="isColEmpty">
                         <h3>No collections!</h3>&nbsp;&nbsp;&nbsp;
+                        <b-button v-b-modal.create variant="primary">Create</b-button>
+                        <b-modal id="create" centered title="Create collection">
+                            <template>
+                                <div>
+                                    <form @submit.prevent="createCollection(i)">
+                                        <b-form-group id="input-group-1"
+                                                      label="Collection Name:"
+                                                      label-for="input-1">
+                                            <b-form-input id="input-1" required
+                                                          placeholder="Enter name"
+                                                          v-model="colName"></b-form-input>
+                                        </b-form-group>
+                                        <b-form-group id="input-group-2"
+                                                      label="Description:"
+                                                      label-for="input-2">
+                                            <b-form-textarea
+                                                    id="input-2"
+                                                    placeholder="Enter description"
+                                                    v-model="colDescription"
+                                            ></b-form-textarea>
+                                        </b-form-group>
+                                        <div style="width: 35%;margin-left: 70%; margin-top: 2vw">
+                                            <b-button id="submit" type="submit"
+                                                      variant="primary">Submit
+                                            </b-button>
+                                            <b-button id="reset" type="reset"
+                                                      variant="danger">
+                                                Reset
+                                            </b-button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </template>
+                            <template v-slot:modal-footer="{ ok, hide }">
+                                <b-button size="md" variant="primary" @click="ok()">
+                                    Done
+                                </b-button>
+                            </template>
+                        </b-modal>
                     </div>
 
                 </div>
@@ -550,59 +692,62 @@
 
             </div>
         </div>
-        <div class="" style="margin-top: 1vw; background: black">
-            <div style="width: 80%; margin-left: 10%">
-                <b-card-group>
-                    <b-card style="border: 0; background: black; color: white">
-                        <b-card-text>
-                            PicSky provides high quality and completely free stock photos. All photos are easy to
-                            discover through our discover pages.
-                        </b-card-text>
-                    </b-card>
+        <div style="bottom: 0; margin-bottom: 0">
+            <div class="" style="margin-top: 1vw; background: black">
+                <div style="width: 80%; margin-left: 10%">
+                    <b-card-group>
+                        <b-card style="border: 0; background: black; color: white">
+                            <b-card-text>
+                                PicSky provides high quality and completely free stock photos. All photos are easy to
+                                discover through our discover pages.
+                            </b-card-text>
+                        </b-card>
 
-                    <b-card style="border: 0; background: black; color: white">
-                        <b-card-text>
-                            By providing free stock photos PicSky helps people all over the world to create beautiful
-                            products and designs easily.
-                        </b-card-text>
-                    </b-card>
+                        <b-card style="border: 0; background: black; color: white">
+                            <b-card-text>
+                                By providing free stock photos PicSky helps people all over the world to create
+                                beautiful
+                                products and designs easily.
+                            </b-card-text>
+                        </b-card>
 
-                    <b-card style="border: 0; background: black; color: white" title="Contact us">
-                        <b-card-text>
-                            <b-icon-phone></b-icon-phone>
-                            Tel: 0414888888<br/>
-                            <b-icon-envelope></b-icon-envelope>
-                            Email: picskyteam@gmail.com<br/>
-                            <b-icon-house></b-icon-house>
-                            Address: Adelaide, SA, 5000<br/>
-                        </b-card-text>
-                    </b-card>
-                </b-card-group>
+                        <b-card style="border: 0; background: black; color: white" title="Contact us">
+                            <b-card-text>
+                                <b-icon-phone></b-icon-phone>
+                                Tel: 0414888888<br/>
+                                <b-icon-envelope></b-icon-envelope>
+                                Email: picskyteam@gmail.com<br/>
+                                <b-icon-house></b-icon-house>
+                                Address: Adelaide, SA, 5000<br/>
+                            </b-card-text>
+                        </b-card>
+                    </b-card-group>
+                </div>
             </div>
+            <footer style="margin-bottom: -22px">
+                <div style="width: 80%; margin-left: 10%">
+                    <b-card-group>
+                        <b-card style="border: 0; background: transparent; color: black">
+                            <b-card-text>
+                                Copyright © 2020 PicSky Inc. All rights reserved.
+                            </b-card-text>
+                        </b-card>
+
+                        <b-card style="border: 0; background: transparent; color: black">
+                            <b-card-text>
+                                Terms of Use | Privacy Policy | Legal | Customer Service
+                            </b-card-text>
+                        </b-card>
+
+                        <b-card style="border: 0; background: transparent; color: black">
+                            <b-card-text>
+                                Developed by <b>Wilbur</b>, Powered by <b>Verto Group</b>
+                            </b-card-text>
+                        </b-card>
+                    </b-card-group>
+                </div>
+            </footer>
         </div>
-        <footer style="margin-bottom: -22px">
-            <div style="width: 80%; margin-left: 10%">
-                <b-card-group>
-                    <b-card style="border: 0; background: transparent; color: black">
-                        <b-card-text>
-                            Copyright © 2020 PicSky Inc. All rights reserved.
-                        </b-card-text>
-                    </b-card>
-
-                    <b-card style="border: 0; background: transparent; color: black">
-                        <b-card-text>
-                            Terms of Use | Privacy Policy | Legal | Customer Service
-                        </b-card-text>
-                    </b-card>
-
-                    <b-card style="border: 0; background: transparent; color: black">
-                        <b-card-text>
-                            Developed by <b>Wilbur</b>, Powered by <b>Verto Group</b>
-                        </b-card-text>
-                    </b-card>
-                </b-card-group>
-            </div>
-        </footer>
     </div>
 
 
@@ -628,18 +773,70 @@
                 isAdd: [],
                 likes: '',
                 userId: '',
-                status: 'search',
+                status: 'like',
+                form: {
+                    email: '',
+                    firstname: '',
+                    lastname: '',
+                    password: '',
+                    confirmpassword: '',
+                    role: null,
+                },
+                roles: [{text: 'Select One', value: null}, 'Normal', 'VIP'],
+                show: true,
+                pl: 'Change profile image',
             }
         },
         created() {
             this.getUserLikes();
             this.getAllCollections();
         },
+        computed: {
+            state() {
+                return this.form.firstname.length >= 2;
+            },
+            invalidFeedback() {
+                if (this.form.firstname.length > 2) {
+                    return '';
+                } else if (this.form.firstname.length > 0) {
+                    return 'Enter at least 2 characters';
+                } else {
+                    return 'Please enter something';
+                }
+            },
+            validation() {
+                return this.form.password.length > 5 && this.form.password.length <= 20 && this.isNumberOr_Letter(this.form.password);
+            },
+            confPassValidation() {
+                return this.form.confirmpassword.length > 5 && this.form.confirmpassword.length <= 20 && this.form.password === this.form.confirmpassword;
+            },
+
+        },
         methods: {
+            formatNames(files) {
+                if (files.length === 1) {
+                    return files[0].name;
+                } else {
+                    return 'Only one file';
+                }
+            },
+            onSubmit(evt) {
+                evt.preventDefault();
+                alert(JSON.stringify(this.form));
+            },
+
+            isNumberOr_Letter(s) {
+                var regu = "^[0-9a-zA-Z]{5,20}$";
+                var re = new RegExp(regu);
+                return re.test(s);
+
+            },
             profileSwitch(status) {
                 this.status = status;
             },
             getUserLikes() {
+                this.userId = document.getElementById('searchTag').dataset.user_id;
+                console.log(document.getElementById('searchTag').dataset);
                 this.likes = 1;
                 var vm = this;
                 this.userId = document.getElementById('searchTag').dataset.user_id;
@@ -684,6 +881,8 @@
                 });
             },
             isLike() {
+                this.userName = document.getElementById('searchTag').dataset.name;
+                this.userEmail = document.getElementById('searchTag').dataset.email;
                 this.userId = document.getElementById('searchTag').dataset.user_id;
                 if (this.userId != "") {
                     for (let i = 0; i < this.pictures.length; i++) {
@@ -720,26 +919,6 @@
                             this.isCILikes[i + 1] = false;
                         }
                     }
-                }
-            },
-
-            getUserLikes() {
-                this.likes = 1;
-                var vm = this;
-                this.userId = document.getElementById('searchTag').dataset.user_id;
-                if (this.userId != "") {
-                    let data = {
-                        "user_id": this.userId
-                    };
-                    axios.post('/getUserLikes', data)
-                        .then(function (response) {
-                            vm.likes = response.data;
-                            console.log(vm.likes);
-                        }).catch(function (error) {
-                        alert(error);
-                    });
-                } else {
-                    this.likes = "";
                 }
             },
 
@@ -1019,5 +1198,17 @@
 
     a:hover > div {
         opacity: 50%;
+    }
+
+    .container {
+        width: 80%;
+    }
+
+    #profile {
+        margin-top: 1vw;
+    }
+
+    tr {
+        width: 100%;
     }
 </style>

@@ -2557,6 +2557,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
+    this.results = document.getElementById('searchTag').dataset.results;
     this.start();
     this.fetchRandomImages();
     this.getUserLikes();
@@ -2904,10 +2905,151 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var _methods;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3537,18 +3679,70 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isAdd: [],
       likes: '',
       userId: '',
-      status: 'search'
+      status: 'like',
+      form: {
+        email: '',
+        firstname: '',
+        lastname: '',
+        password: '',
+        confirmpassword: '',
+        role: null
+      },
+      roles: [{
+        text: 'Select One',
+        value: null
+      }, 'Normal', 'VIP'],
+      show: true,
+      pl: 'Change profile image'
     };
   },
   created: function created() {
     this.getUserLikes();
     this.getAllCollections();
   },
-  methods: (_methods = {
+  computed: {
+    state: function state() {
+      return this.form.firstname.length >= 2;
+    },
+    invalidFeedback: function invalidFeedback() {
+      if (this.form.firstname.length > 2) {
+        return '';
+      } else if (this.form.firstname.length > 0) {
+        return 'Enter at least 2 characters';
+      } else {
+        return 'Please enter something';
+      }
+    },
+    validation: function validation() {
+      return this.form.password.length > 5 && this.form.password.length <= 20 && this.isNumberOr_Letter(this.form.password);
+    },
+    confPassValidation: function confPassValidation() {
+      return this.form.confirmpassword.length > 5 && this.form.confirmpassword.length <= 20 && this.form.password === this.form.confirmpassword;
+    }
+  },
+  methods: {
+    formatNames: function formatNames(files) {
+      if (files.length === 1) {
+        return files[0].name;
+      } else {
+        return 'Only one file';
+      }
+    },
+    onSubmit: function onSubmit(evt) {
+      evt.preventDefault();
+      alert(JSON.stringify(this.form));
+    },
+    isNumberOr_Letter: function isNumberOr_Letter(s) {
+      var regu = "^[0-9a-zA-Z]{5,20}$";
+      var re = new RegExp(regu);
+      return re.test(s);
+    },
     profileSwitch: function profileSwitch(status) {
       this.status = status;
     },
     getUserLikes: function getUserLikes() {
+      this.userId = document.getElementById('searchTag').dataset.user_id;
+      console.log(document.getElementById('searchTag').dataset);
       this.likes = 1;
       var vm = this;
       this.userId = document.getElementById('searchTag').dataset.user_id;
@@ -3593,6 +3787,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     isLike: function isLike() {
+      this.userName = document.getElementById('searchTag').dataset.name;
+      this.userEmail = document.getElementById('searchTag').dataset.email;
       this.userId = document.getElementById('searchTag').dataset.user_id;
 
       if (this.userId != "") {
@@ -3635,238 +3831,235 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }
       }
-    }
-  }, _defineProperty(_methods, "getUserLikes", function getUserLikes() {
-    this.likes = 1;
-    var vm = this;
-    this.userId = document.getElementById('searchTag').dataset.user_id;
-
-    if (this.userId != "") {
-      var data = {
-        "user_id": this.userId
-      };
-      axios.post('/getUserLikes', data).then(function (response) {
-        vm.likes = response.data;
-        console.log(vm.likes);
+    },
+    fetchRandomImages: function fetchRandomImages() {
+      this.pictures = 1;
+      var vm = this;
+      axios.get('/aaa').then(function (response) {
+        vm.pictures = response.data;
       })["catch"](function (error) {
         alert(error);
       });
-    } else {
-      this.likes = "";
-    }
-  }), _defineProperty(_methods, "fetchRandomImages", function fetchRandomImages() {
-    this.pictures = 1;
-    var vm = this;
-    axios.get('/aaa').then(function (response) {
-      vm.pictures = response.data;
-    })["catch"](function (error) {
-      alert(error);
-    });
-  }), _defineProperty(_methods, "hoverOn", function hoverOn(index) {
-    var img_idx = "image" + index;
-    var des_idx = "des" + index;
-    document.getElementById(img_idx).style.visibility = "visible";
-    document.getElementById(des_idx).style.visibility = "visible";
-  }), _defineProperty(_methods, "hoverOff", function hoverOff(index) {
-    var img_idx = "image" + index;
-    var des_idx = "des" + index;
-    document.getElementById(img_idx).style.visibility = "hidden";
-    document.getElementById(des_idx).style.visibility = "hidden";
-  }), _defineProperty(_methods, "collectionHoverOn", function collectionHoverOn(index) {
-    var img_idx = "c_image" + index;
-    var des_idx = "c_des" + index;
-    document.getElementById(img_idx).style.visibility = "visible";
-    document.getElementById(des_idx).style.visibility = "visible";
-  }), _defineProperty(_methods, "collectionHoverOff", function collectionHoverOff(index) {
-    var img_idx = "c_image" + index;
-    var des_idx = "c_des" + index;
-    document.getElementById(img_idx).style.visibility = "hidden";
-    document.getElementById(des_idx).style.visibility = "hidden";
-  }), _defineProperty(_methods, "likeImage", function likeImage(index) {
-    this.userId = document.getElementById('searchTag').dataset.user_id;
-    console.log(this.userId);
+    },
+    hoverOn: function hoverOn(index) {
+      var img_idx = "image" + index;
+      var des_idx = "des" + index;
+      document.getElementById(img_idx).style.visibility = "visible";
+      document.getElementById(des_idx).style.visibility = "visible";
+    },
+    hoverOff: function hoverOff(index) {
+      var img_idx = "image" + index;
+      var des_idx = "des" + index;
+      document.getElementById(img_idx).style.visibility = "hidden";
+      document.getElementById(des_idx).style.visibility = "hidden";
+    },
+    collectionHoverOn: function collectionHoverOn(index) {
+      var img_idx = "c_image" + index;
+      var des_idx = "c_des" + index;
+      document.getElementById(img_idx).style.visibility = "visible";
+      document.getElementById(des_idx).style.visibility = "visible";
+    },
+    collectionHoverOff: function collectionHoverOff(index) {
+      var img_idx = "c_image" + index;
+      var des_idx = "c_des" + index;
+      document.getElementById(img_idx).style.visibility = "hidden";
+      document.getElementById(des_idx).style.visibility = "hidden";
+    },
+    likeImage: function likeImage(index) {
+      this.userId = document.getElementById('searchTag').dataset.user_id;
+      console.log(this.userId);
 
-    if (this.userId == "") {
-      window.location.href = '/login';
-    } else {
-      var description = document.getElementById(index).dataset.description;
-      var url_raw = document.getElementById(index).dataset.url_raw;
-      var url_regular = document.getElementById(index).dataset.url_regular;
-      var unsplash_id = document.getElementById(index).dataset.unsplash_id;
+      if (this.userId == "") {
+        window.location.href = '/login';
+      } else {
+        var description = document.getElementById(index).dataset.description;
+        var url_raw = document.getElementById(index).dataset.url_raw;
+        var url_regular = document.getElementById(index).dataset.url_regular;
+        var unsplash_id = document.getElementById(index).dataset.unsplash_id;
 
-      if (description == "") {
-        description = "This is an image";
+        if (description == "") {
+          description = "This is an image";
+        }
+
+        var data = {
+          "description": description,
+          "url_raw": url_raw,
+          "url_regular": url_regular,
+          "unsplash_id": unsplash_id,
+          "user_id": this.userId
+        };
+        axios.post('api/like', data).then(function (response) {
+          if (response.data == "like") {
+            document.getElementById('like' + index).style.display = "inline";
+            document.getElementById('dislike' + index).style.display = "none";
+          }
+
+          if (response.data == "dislike") {
+            document.getElementById('like' + index).style.display = "none";
+            document.getElementById('dislike' + index).style.display = "inline";
+          }
+        })["catch"](function (error) {
+          alert(error);
+        });
       }
+    },
+    clearInput: function clearInput($event) {
+      $event.target.value = "";
+    },
+    getAllCollections: function getAllCollections() {
+      var vm = this;
+      this.isAdd = [];
+      this.userId = document.getElementById('searchTag').dataset.user_id;
 
+      if (this.userId == "") {
+        window.location.href = '/login';
+      } else {
+        var data = {
+          "user_id": this.userId
+        };
+        axios.post('api/getCollectionsByUserId', data).then(function (response) {
+          if (response.data == "empty") {
+            vm.isColEmpty = true;
+          } else {
+            vm.isColEmpty = false;
+            vm.collections = response.data[0];
+            vm.colCoverImgs = response.data[1];
+          }
+        })["catch"](function (error) {
+          alert(error);
+        });
+      }
+    },
+    createCollection: function createCollection() {
+      var vm = this;
+      this.userId = document.getElementById('searchTag').dataset.user_id;
+      var data = {
+        "user_id": this.userId,
+        "c_name": this.colName,
+        "c_description": this.colDescription
+      };
+      axios.post('api/collections', data).then(function (response) {
+        if (response.data == "success") {
+          vm.getAllCollections();
+          vm.$bvModal.hide('create');
+          vm.colName = '';
+          vm.colDescription = '';
+        }
+      })["catch"](function (error) {
+        alert(error);
+      });
+    },
+    addToCollection: function addToCollection(pic_index, collection_index) {
+      var vm = this;
+      var idx = "image" + pic_index;
+      var cid = "colImages" + collection_index;
+      var description = document.getElementById(idx).dataset.description;
+      var url_raw = document.getElementById(idx).dataset.url_raw;
+      var url_regular = document.getElementById(idx).dataset.url_regular;
+      var unsplash_id = document.getElementById(idx).dataset.unsplash_id;
+      var collection_id = document.getElementById(cid).dataset.collection_id;
       var data = {
         "description": description,
         "url_raw": url_raw,
         "url_regular": url_regular,
-        "unsplash_id": unsplash_id,
-        "user_id": this.userId
+        "unsplash_id": unsplash_id
       };
-      axios.post('api/like', data).then(function (response) {
-        if (response.data == "like") {
-          document.getElementById('like' + index).style.display = "inline";
-          document.getElementById('dislike' + index).style.display = "none";
-        }
+      axios.post('api/addImage', data).then(function (response) {
+        var data2 = {
+          "image_id": response.data,
+          "collection_id": collection_id
+        };
+        axios.post('api/addToCollection', data2).then(function (response) {
+          if (response.data == "success") {
+            vm.isAdd[collection_index] = true;
+          }
 
-        if (response.data == "dislike") {
-          document.getElementById('like' + index).style.display = "none";
-          document.getElementById('dislike' + index).style.display = "inline";
-        }
+          if (response.data == "exist") {
+            vm.isAdd[collection_index] = true;
+          }
+        })["catch"](function (error) {
+          alert(error);
+        });
       })["catch"](function (error) {
         alert(error);
       });
-    }
-  }), _defineProperty(_methods, "clearInput", function clearInput($event) {
-    $event.target.value = "";
-  }), _defineProperty(_methods, "getAllCollections", function getAllCollections() {
-    var vm = this;
-    this.isAdd = [];
-    this.userId = document.getElementById('searchTag').dataset.user_id;
-
-    if (this.userId == "") {
-      window.location.href = '/login';
-    } else {
+    },
+    deleteCollection: function deleteCollection(index) {
+      var vm = this;
+      var idx = "colImages" + index;
+      var collection_id = document.getElementById(idx).dataset.collection_id;
       var data = {
-        "user_id": this.userId
-      };
-      axios.post('api/getCollectionsByUserId', data).then(function (response) {
-        if (response.data == "empty") {
-          vm.isColEmpty = true;
-        } else {
-          vm.isColEmpty = false;
-          vm.collections = response.data[0];
-          vm.colCoverImgs = response.data[1];
-        }
-      })["catch"](function (error) {
-        alert(error);
-      });
-    }
-  }), _defineProperty(_methods, "createCollection", function createCollection() {
-    var vm = this;
-    this.userId = document.getElementById('searchTag').dataset.user_id;
-    var data = {
-      "user_id": this.userId,
-      "c_name": this.colName,
-      "c_description": this.colDescription
-    };
-    axios.post('api/collections', data).then(function (response) {
-      if (response.data == "success") {
-        vm.getAllCollections();
-        vm.$bvModal.hide('create');
-        vm.colName = '';
-        vm.colDescription = '';
-      }
-    })["catch"](function (error) {
-      alert(error);
-    });
-  }), _defineProperty(_methods, "addToCollection", function addToCollection(pic_index, collection_index) {
-    var vm = this;
-    var idx = "image" + pic_index;
-    var cid = "colImages" + collection_index;
-    var description = document.getElementById(idx).dataset.description;
-    var url_raw = document.getElementById(idx).dataset.url_raw;
-    var url_regular = document.getElementById(idx).dataset.url_regular;
-    var unsplash_id = document.getElementById(idx).dataset.unsplash_id;
-    var collection_id = document.getElementById(cid).dataset.collection_id;
-    var data = {
-      "description": description,
-      "url_raw": url_raw,
-      "url_regular": url_regular,
-      "unsplash_id": unsplash_id
-    };
-    axios.post('api/addImage', data).then(function (response) {
-      var data2 = {
-        "image_id": response.data,
         "collection_id": collection_id
       };
-      axios.post('api/addToCollection', data2).then(function (response) {
+      axios.post('api/deleteCollection', data).then(function (response) {
         if (response.data == "success") {
-          vm.isAdd[collection_index] = true;
-        }
-
-        if (response.data == "exist") {
-          vm.isAdd[collection_index] = true;
+          vm.getAllCollections();
         }
       })["catch"](function (error) {
         alert(error);
       });
-    })["catch"](function (error) {
-      alert(error);
-    });
-  }), _defineProperty(_methods, "deleteCollection", function deleteCollection(index) {
-    var vm = this;
-    var idx = "colImages" + index;
-    var collection_id = document.getElementById(idx).dataset.collection_id;
-    var data = {
-      "collection_id": collection_id
-    };
-    axios.post('api/deleteCollection', data).then(function (response) {
-      if (response.data == "success") {
-        vm.getAllCollections();
-      }
-    })["catch"](function (error) {
-      alert(error);
-    });
-  }), _defineProperty(_methods, "deleteImages", function deleteImages(pic_index, collection_index) {
-    var vm = this;
-    var cid = "colImages" + collection_index;
-    var collection_id = document.getElementById(cid).dataset.collection_id;
-    var img_id = this.c_imgs[pic_index - 1].id;
-    var data = {
-      "collection_id": collection_id,
-      "image_id": img_id
-    };
-    axios.post('api/deleteImages', data).then(function (response) {
-      if (response.data == "success") {
-        vm.seeDetails(collection_index);
-      }
-    })["catch"](function (error) {
-      alert(error);
-    });
-  }), _defineProperty(_methods, "seeDetails", function seeDetails(collection_index) {
-    this.c_imgs = 1;
-    var vm = this;
-    var cid = "colImages" + collection_index;
-    var collection_id = document.getElementById(cid).dataset.collection_id;
-    var data = {
-      "collection_id": collection_id
-    };
-    axios.post('api/seeCollectionDetails', data).then(function (response) {
-      if (response.data == "") {
-        vm.isColImgEmpty = true;
-      } else {
-        vm.isColImgEmpty = false;
-        vm.c_imgs = response.data;
-      }
+    },
+    deleteImages: function deleteImages(pic_index, collection_index) {
+      var vm = this;
+      var cid = "colImages" + collection_index;
+      var collection_id = document.getElementById(cid).dataset.collection_id;
+      var img_id = this.c_imgs[pic_index - 1].id;
+      var data = {
+        "collection_id": collection_id,
+        "image_id": img_id
+      };
+      axios.post('api/deleteImages', data).then(function (response) {
+        if (response.data == "success") {
+          vm.seeDetails(collection_index);
+        }
+      })["catch"](function (error) {
+        alert(error);
+      });
+    },
+    seeDetails: function seeDetails(collection_index) {
+      this.c_imgs = 1;
+      var vm = this;
+      var cid = "colImages" + collection_index;
+      var collection_id = document.getElementById(cid).dataset.collection_id;
+      var data = {
+        "collection_id": collection_id
+      };
+      axios.post('api/seeCollectionDetails', data).then(function (response) {
+        if (response.data == "") {
+          vm.isColImgEmpty = true;
+        } else {
+          vm.isColImgEmpty = false;
+          vm.c_imgs = response.data;
+        }
 
-      vm.isCollectionImageLike();
-    })["catch"](function (error) {
-      alert(error);
-    });
-  }), _defineProperty(_methods, "forceFileDownload", function forceFileDownload(response) {
-    var url = window.URL.createObjectURL(new Blob([response.data]));
-    var link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'file.png'); //or any other extension
+        vm.isCollectionImageLike();
+      })["catch"](function (error) {
+        alert(error);
+      });
+    },
+    forceFileDownload: function forceFileDownload(response) {
+      var url = window.URL.createObjectURL(new Blob([response.data]));
+      var link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'file.png'); //or any other extension
 
-    document.body.appendChild(link);
-    link.click();
-  }), _defineProperty(_methods, "downloadWithAxios", function downloadWithAxios(url) {
-    var _this = this;
+      document.body.appendChild(link);
+      link.click();
+    },
+    downloadWithAxios: function downloadWithAxios(url) {
+      var _this = this;
 
-    axios({
-      method: 'get',
-      url: url,
-      responseType: 'arraybuffer'
-    }).then(function (response) {
-      _this.forceFileDownload(response);
-    })["catch"](function () {
-      return console.log('error occured');
-    });
-  }), _methods),
+      axios({
+        method: 'get',
+        url: url,
+        responseType: 'arraybuffer'
+      }).then(function (response) {
+        _this.forceFileDownload(response);
+      })["catch"](function () {
+        return console.log('error occured');
+      });
+    }
+  },
   name: "Dashboard"
 });
 
@@ -3881,6 +4074,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -4416,7 +4610,6 @@ __webpack_require__.r(__webpack_exports__);
         };
         axios.post('/getUserLikes', data).then(function (response) {
           vm.likes = response.data;
-          console.log(vm.likes);
         })["catch"](function (error) {
           alert(error);
         });
@@ -4459,7 +4652,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     likeImage: function likeImage(index) {
       this.userId = document.getElementById('searchTag').dataset.user_id;
-      console.log(this.userId);
 
       if (this.userId == "") {
         window.location.href = '/login';
@@ -42564,7 +42756,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n[data-v-57220a4e]:first-letter {\n    text-transform: capitalize;\n}\na:hover > div[data-v-57220a4e] {\n    opacity: 50%;\n}\n", ""]);
+exports.push([module.i, "\n[data-v-57220a4e]:first-letter {\n    text-transform: capitalize;\n}\na:hover > div[data-v-57220a4e] {\n    opacity: 50%;\n}\n.container[data-v-57220a4e] {\n    width: 80%;\n}\n#profile[data-v-57220a4e] {\n    margin-top: 1vw;\n}\ntr[data-v-57220a4e] {\n    width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -76610,177 +76802,7 @@ var render = function() {
                   1
                 )
               ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticStyle: { "margin-top": "1vw", background: "black" } },
-              [
-                _c(
-                  "div",
-                  { staticStyle: { width: "80%", "margin-left": "10%" } },
-                  [
-                    _c(
-                      "b-card-group",
-                      [
-                        _c(
-                          "b-card",
-                          {
-                            staticStyle: {
-                              border: "0",
-                              background: "black",
-                              color: "white"
-                            }
-                          },
-                          [
-                            _c("b-card-text", [
-                              _vm._v(
-                                "\n                                PicSky provides high quality and completely free stock photos. All photos are easy\n                                to discover through our discover pages.\n                            "
-                              )
-                            ])
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "b-card",
-                          {
-                            staticStyle: {
-                              border: "0",
-                              background: "black",
-                              color: "white"
-                            }
-                          },
-                          [
-                            _c("b-card-text", [
-                              _vm._v(
-                                "\n                                By providing free stock photos PicSky helps people all over the world to create\n                                beautiful products and designs easily.\n                            "
-                              )
-                            ])
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "b-card",
-                          {
-                            staticStyle: {
-                              border: "0",
-                              background: "black",
-                              color: "white"
-                            },
-                            attrs: { title: "Contact us" }
-                          },
-                          [
-                            _c(
-                              "b-card-text",
-                              [
-                                _c("b-icon-phone"),
-                                _vm._v(
-                                  "\n                                Tel: 0414888888"
-                                ),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("b-icon-envelope"),
-                                _vm._v(
-                                  "\n                                Email: picskyteam@gmail.com"
-                                ),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("b-icon-house"),
-                                _vm._v(
-                                  "\n                                Address: Adelaide, SA, 5000"
-                                ),
-                                _c("br")
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("footer", { staticStyle: { "margin-bottom": "-22px" } }, [
-              _c(
-                "div",
-                { staticStyle: { width: "80%", "margin-left": "10%" } },
-                [
-                  _c(
-                    "b-card-group",
-                    [
-                      _c(
-                        "b-card",
-                        {
-                          staticStyle: {
-                            border: "0",
-                            background: "transparent",
-                            color: "black"
-                          }
-                        },
-                        [
-                          _c("b-card-text", [
-                            _vm._v(
-                              "\n                                Copyright © 2020 PicSky Inc. All rights reserved.\n                            "
-                            )
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "b-card",
-                        {
-                          staticStyle: {
-                            border: "0",
-                            background: "transparent",
-                            color: "black"
-                          }
-                        },
-                        [
-                          _c("b-card-text", [
-                            _vm._v(
-                              "\n                                Terms of Use | Privacy Policy | Legal | Customer Service\n                            "
-                            )
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "b-card",
-                        {
-                          staticStyle: {
-                            border: "0",
-                            background: "transparent",
-                            color: "black"
-                          }
-                        },
-                        [
-                          _c("b-card-text", [
-                            _vm._v(
-                              "\n                                Developed by "
-                            ),
-                            _c("b", [_vm._v("Wilbur")]),
-                            _vm._v(", Powered by "),
-                            _c("b", [_vm._v("Verto Group")])
-                          ])
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ])
+            )
           ])
         : _c(
             "div",
@@ -76808,6 +76830,168 @@ var render = function() {
             ],
             1
           )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticStyle: { "margin-top": "1vw", background: "black" } }, [
+      _c(
+        "div",
+        { staticStyle: { width: "80%", "margin-left": "10%" } },
+        [
+          _c(
+            "b-card-group",
+            [
+              _c(
+                "b-card",
+                {
+                  staticStyle: {
+                    border: "0",
+                    background: "black",
+                    color: "white"
+                  }
+                },
+                [
+                  _c("b-card-text", [
+                    _vm._v(
+                      "\n                        PicSky provides high quality and completely free stock photos. All photos are easy\n                        to discover through our discover pages.\n                    "
+                    )
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-card",
+                {
+                  staticStyle: {
+                    border: "0",
+                    background: "black",
+                    color: "white"
+                  }
+                },
+                [
+                  _c("b-card-text", [
+                    _vm._v(
+                      "\n                        By providing free stock photos PicSky helps people all over the world to create\n                        beautiful products and designs easily.\n                    "
+                    )
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-card",
+                {
+                  staticStyle: {
+                    border: "0",
+                    background: "black",
+                    color: "white"
+                  },
+                  attrs: { title: "Contact us" }
+                },
+                [
+                  _c(
+                    "b-card-text",
+                    [
+                      _c("b-icon-phone"),
+                      _vm._v("\n                        Tel: 0414888888"),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("b-icon-envelope"),
+                      _vm._v(
+                        "\n                        Email: picskyteam@gmail.com"
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("b-icon-house"),
+                      _vm._v(
+                        "\n                        Address: Adelaide, SA, 5000"
+                      ),
+                      _c("br")
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ]),
+    _vm._v(" "),
+    _c("footer", { staticStyle: { "margin-bottom": "-22px" } }, [
+      _c(
+        "div",
+        { staticStyle: { width: "80%", "margin-left": "10%" } },
+        [
+          _c(
+            "b-card-group",
+            [
+              _c(
+                "b-card",
+                {
+                  staticStyle: {
+                    border: "0",
+                    background: "transparent",
+                    color: "black"
+                  }
+                },
+                [
+                  _c("b-card-text", [
+                    _vm._v(
+                      "\n                        Copyright © 2020 PicSky Inc. All rights reserved.\n                    "
+                    )
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-card",
+                {
+                  staticStyle: {
+                    border: "0",
+                    background: "transparent",
+                    color: "black"
+                  }
+                },
+                [
+                  _c("b-card-text", [
+                    _vm._v(
+                      "\n                        Terms of Use | Privacy Policy | Legal | Customer Service\n                    "
+                    )
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-card",
+                {
+                  staticStyle: {
+                    border: "0",
+                    background: "transparent",
+                    color: "black"
+                  }
+                },
+                [
+                  _c("b-card-text", [
+                    _vm._v("\n                        Developed by "),
+                    _c("b", [_vm._v("Wilbur")]),
+                    _vm._v(", Powered by "),
+                    _c("b", [_vm._v("Verto Group")])
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ])
   ])
 }
@@ -76864,18 +77048,432 @@ var render = function() {
                   "b-card",
                   {
                     staticStyle: { border: "0" },
-                    attrs: { title: _vm.userId.name }
+                    attrs: { title: _vm.form.firstname }
                   },
                   [
-                    _c("b-card-text", [_vm._v(_vm._s(_vm.userId.email))]),
+                    _c("b-card-text", [_vm._v(_vm._s(_vm.form.email))]),
                     _vm._v(" "),
                     _c(
                       "b-button",
                       {
-                        attrs: { variant: "outline-primary" },
-                        on: { click: function($event) {} }
+                        directives: [
+                          {
+                            name: "b-modal",
+                            rawName: "v-b-modal.eidtProfile",
+                            modifiers: { eidtProfile: true }
+                          }
+                        ],
+                        attrs: { variant: "outline-primary" }
                       },
                       [_vm._v("Edit profile")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-modal",
+                      {
+                        attrs: {
+                          id: "eidtProfile",
+                          centered: "",
+                          title: "Edit Profile",
+                          size: "xl",
+                          scrollable: ""
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "modal-footer",
+                            fn: function(ref) {
+                              var ok = ref.ok
+                              var hide = ref.hide
+                              return [
+                                _c(
+                                  "b-button",
+                                  {
+                                    attrs: { size: "md", variant: "primary" },
+                                    on: {
+                                      click: function($event) {
+                                        return ok()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                Cancel\n                            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            }
+                          }
+                        ])
+                      },
+                      [
+                        _c("div", { staticClass: "container" }, [
+                          _c("h2", [_vm._v("Edit Profile")]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { attrs: { id: "profile" } },
+                            [
+                              _vm.show
+                                ? _c(
+                                    "b-form",
+                                    { on: { submit: _vm.onSubmit } },
+                                    [
+                                      _c("table", [
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            { staticStyle: { width: "40%" } },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticStyle: {
+                                                    "margin-left": "0"
+                                                  },
+                                                  attrs: { id: "left" }
+                                                },
+                                                [
+                                                  _c(
+                                                    "b-card",
+                                                    {
+                                                      staticStyle: {
+                                                        border: "none"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "b-card-body",
+                                                        [
+                                                          _c("b-card-img", {
+                                                            attrs: {
+                                                              src:
+                                                                "https://picsum.photos/400/400/?image=20",
+                                                              start: "",
+                                                              width: "200px",
+                                                              height: "200px"
+                                                            }
+                                                          })
+                                                        ],
+                                                        1
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "b-card-footer",
+                                                        {
+                                                          staticStyle: {
+                                                            border: "0",
+                                                            background:
+                                                              "transparent"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("b-form-file", {
+                                                            attrs: {
+                                                              "file-name-formatter":
+                                                                _vm.formatNames,
+                                                              accept:
+                                                                ".jpg, .png",
+                                                              placeholder:
+                                                                _vm.pl
+                                                            }
+                                                          })
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticStyle: { width: "60%" } },
+                                            [
+                                              _c(
+                                                "div",
+                                                { attrs: { id: "right" } },
+                                                [
+                                                  _c(
+                                                    "b-form-group",
+                                                    {
+                                                      attrs: {
+                                                        id: "input-group-1",
+                                                        label: "Name:",
+                                                        "label-for": "input-1"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("b-form-input", {
+                                                        attrs: {
+                                                          id: "input-1",
+                                                          required: "",
+                                                          placeholder:
+                                                            _vm.form.firstname,
+                                                          "invalid-feedback":
+                                                            _vm.invalidFeedback,
+                                                          state: _vm.state
+                                                        },
+                                                        model: {
+                                                          value:
+                                                            _vm.form.firstname,
+                                                          callback: function(
+                                                            $$v
+                                                          ) {
+                                                            _vm.$set(
+                                                              _vm.form,
+                                                              "firstname",
+                                                              $$v
+                                                            )
+                                                          },
+                                                          expression:
+                                                            "form.firstname"
+                                                        }
+                                                      })
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "b-form-group",
+                                                    {
+                                                      attrs: {
+                                                        id: "input-group-3",
+                                                        label: "Email address:",
+                                                        "label-for": "input-3",
+                                                        description:
+                                                          "We'll never share your email with anyone else."
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("b-form-input", {
+                                                        attrs: {
+                                                          id: "input-3",
+                                                          type: "email",
+                                                          required: "",
+                                                          placeholder:
+                                                            _vm.form.email
+                                                        },
+                                                        model: {
+                                                          value: _vm.form.email,
+                                                          callback: function(
+                                                            $$v
+                                                          ) {
+                                                            _vm.$set(
+                                                              _vm.form,
+                                                              "email",
+                                                              $$v
+                                                            )
+                                                          },
+                                                          expression:
+                                                            "form.email"
+                                                        }
+                                                      })
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "tr",
+                                          { staticStyle: { height: "15vw" } },
+                                          [
+                                            _c(
+                                              "td",
+                                              { attrs: { colspan: "2" } },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { attrs: { id: "center" } },
+                                                  [
+                                                    _c(
+                                                      "b-form-group",
+                                                      {
+                                                        attrs: {
+                                                          id: "input-group-4",
+                                                          label: "Password:",
+                                                          "label-for": "input-4"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("b-form-input", {
+                                                          attrs: {
+                                                            id: "input-4",
+                                                            type: "password",
+                                                            state:
+                                                              _vm.validation,
+                                                            "aria-describedby":
+                                                              "password-help-block",
+                                                            placeholder:
+                                                              _vm.form.password,
+                                                            required: ""
+                                                          },
+                                                          model: {
+                                                            value:
+                                                              _vm.form.password,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.$set(
+                                                                _vm.form,
+                                                                "password",
+                                                                $$v
+                                                              )
+                                                            },
+                                                            expression:
+                                                              "form.password"
+                                                          }
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "b-form-text",
+                                                          {
+                                                            attrs: {
+                                                              id:
+                                                                "password-help-block"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                                            Your password must be 6-20 characters long, only letters\n                                                            and numbers.\n                                                        "
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "b-form-group",
+                                                      {
+                                                        attrs: {
+                                                          id: "input-group-5",
+                                                          label:
+                                                            "Confirm password:",
+                                                          "label-for": "input-5"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("b-form-input", {
+                                                          attrs: {
+                                                            id: "input-5",
+                                                            type: "password",
+                                                            state:
+                                                              _vm.confPassValidation,
+                                                            required: ""
+                                                          },
+                                                          model: {
+                                                            value:
+                                                              _vm.form
+                                                                .confirmpassword,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.$set(
+                                                                _vm.form,
+                                                                "confirmpassword",
+                                                                $$v
+                                                              )
+                                                            },
+                                                            expression:
+                                                              "form.confirmpassword"
+                                                          }
+                                                        })
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "b-form-group",
+                                                      {
+                                                        attrs: {
+                                                          id: "input-group-6",
+                                                          label: "Membership:",
+                                                          "label-for": "input-6"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("b-form-select", {
+                                                          attrs: {
+                                                            id: "input-6",
+                                                            options: _vm.roles,
+                                                            required: ""
+                                                          },
+                                                          model: {
+                                                            value:
+                                                              _vm.form.role,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.$set(
+                                                                _vm.form,
+                                                                "role",
+                                                                $$v
+                                                              )
+                                                            },
+                                                            expression:
+                                                              "form.role"
+                                                          }
+                                                        })
+                                                      ],
+                                                      1
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "tr",
+                                          { staticStyle: { height: "5vw" } },
+                                          [
+                                            _c(
+                                              "td",
+                                              { attrs: { colspan: "2" } },
+                                              [
+                                                _c(
+                                                  "b-button",
+                                                  {
+                                                    staticStyle: {
+                                                      width: "100%"
+                                                    },
+                                                    attrs: {
+                                                      type: "submit",
+                                                      variant: "dark"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "Update\n                                                    profile\n                                                "
+                                                    )
+                                                  ]
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ])
+                      ]
                     )
                   ],
                   1
@@ -76928,20 +77526,7 @@ var render = function() {
               },
               [_vm._v("\n                My collections\n            ")]
             ),
-            _vm._v("   \n                "),
-            _c("b-icon-search", { staticStyle: { color: "black" } }),
-            _vm._v(" "),
-            _c(
-              "b-link",
-              {
-                on: {
-                  click: function($event) {
-                    return _vm.profileSwitch("search")
-                  }
-                }
-              },
-              [_vm._v("\n                Search more pictures\n            ")]
-            )
+            _vm._v("   \n            ")
           ],
           1
         )
@@ -76955,35 +77540,6 @@ var render = function() {
       { staticStyle: { "margin-top": "2vw", width: "100%", height: "auto" } },
       [
         _c("div", { staticStyle: { width: "80%", "margin-left": "10%" } }, [
-          _vm.status == "search"
-            ? _c(
-                "div",
-                [
-                  _c(
-                    "b-input-group",
-                    { attrs: { size: "lg" } },
-                    [
-                      _c(
-                        "b-input-group-prepend",
-                        { attrs: { "is-text": "" } },
-                        [_c("b-icon-search")],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("b-form-input", {
-                        attrs: {
-                          type: "search",
-                          placeholder: "Search your favorite photos"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
           _vm.status == "like"
             ? _c("div", [
                 _c(
@@ -79004,10 +79560,194 @@ var render = function() {
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.isColEmpty
-                  ? _c("div", [
-                      _c("h3", [_vm._v("No collections!")]),
-                      _vm._v("   \n                ")
-                    ])
+                  ? _c(
+                      "div",
+                      [
+                        _c("h3", [_vm._v("No collections!")]),
+                        _vm._v("   \n                    "),
+                        _c(
+                          "b-button",
+                          {
+                            directives: [
+                              {
+                                name: "b-modal",
+                                rawName: "v-b-modal.create",
+                                modifiers: { create: true }
+                              }
+                            ],
+                            attrs: { variant: "primary" }
+                          },
+                          [_vm._v("Create")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-modal",
+                          {
+                            attrs: {
+                              id: "create",
+                              centered: "",
+                              title: "Create collection"
+                            },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "modal-footer",
+                                  fn: function(ref) {
+                                    var ok = ref.ok
+                                    var hide = ref.hide
+                                    return [
+                                      _c(
+                                        "b-button",
+                                        {
+                                          attrs: {
+                                            size: "md",
+                                            variant: "primary"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return ok()
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                Done\n                            "
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              false,
+                              3079672408
+                            )
+                          },
+                          [
+                            [
+                              _c("div", [
+                                _c(
+                                  "form",
+                                  {
+                                    on: {
+                                      submit: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.createCollection(_vm.i)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "b-form-group",
+                                      {
+                                        attrs: {
+                                          id: "input-group-1",
+                                          label: "Collection Name:",
+                                          "label-for": "input-1"
+                                        }
+                                      },
+                                      [
+                                        _c("b-form-input", {
+                                          attrs: {
+                                            id: "input-1",
+                                            required: "",
+                                            placeholder: "Enter name"
+                                          },
+                                          model: {
+                                            value: _vm.colName,
+                                            callback: function($$v) {
+                                              _vm.colName = $$v
+                                            },
+                                            expression: "colName"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "b-form-group",
+                                      {
+                                        attrs: {
+                                          id: "input-group-2",
+                                          label: "Description:",
+                                          "label-for": "input-2"
+                                        }
+                                      },
+                                      [
+                                        _c("b-form-textarea", {
+                                          attrs: {
+                                            id: "input-2",
+                                            placeholder: "Enter description"
+                                          },
+                                          model: {
+                                            value: _vm.colDescription,
+                                            callback: function($$v) {
+                                              _vm.colDescription = $$v
+                                            },
+                                            expression: "colDescription"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticStyle: {
+                                          width: "35%",
+                                          "margin-left": "70%",
+                                          "margin-top": "2vw"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "b-button",
+                                          {
+                                            attrs: {
+                                              id: "submit",
+                                              type: "submit",
+                                              variant: "primary"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "Submit\n                                        "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-button",
+                                          {
+                                            attrs: {
+                                              id: "reset",
+                                              type: "reset",
+                                              variant: "danger"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                            Reset\n                                        "
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ])
+                            ]
+                          ],
+                          2
+                        )
+                      ],
+                      1
+                    )
                   : _vm._e()
               ])
             : _vm._e()
@@ -79015,166 +79755,168 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("div", { staticStyle: { "margin-top": "1vw", background: "black" } }, [
-      _c(
-        "div",
-        { staticStyle: { width: "80%", "margin-left": "10%" } },
-        [
-          _c(
-            "b-card-group",
-            [
-              _c(
-                "b-card",
-                {
-                  staticStyle: {
-                    border: "0",
-                    background: "black",
-                    color: "white"
-                  }
-                },
-                [
-                  _c("b-card-text", [
-                    _vm._v(
-                      "\n                        PicSky provides high quality and completely free stock photos. All photos are easy to\n                        discover through our discover pages.\n                    "
-                    )
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-card",
-                {
-                  staticStyle: {
-                    border: "0",
-                    background: "black",
-                    color: "white"
-                  }
-                },
-                [
-                  _c("b-card-text", [
-                    _vm._v(
-                      "\n                        By providing free stock photos PicSky helps people all over the world to create beautiful\n                        products and designs easily.\n                    "
-                    )
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-card",
-                {
-                  staticStyle: {
-                    border: "0",
-                    background: "black",
-                    color: "white"
+    _c("div", { staticStyle: { bottom: "0", "margin-bottom": "0" } }, [
+      _c("div", { staticStyle: { "margin-top": "1vw", background: "black" } }, [
+        _c(
+          "div",
+          { staticStyle: { width: "80%", "margin-left": "10%" } },
+          [
+            _c(
+              "b-card-group",
+              [
+                _c(
+                  "b-card",
+                  {
+                    staticStyle: {
+                      border: "0",
+                      background: "black",
+                      color: "white"
+                    }
                   },
-                  attrs: { title: "Contact us" }
-                },
-                [
-                  _c(
-                    "b-card-text",
-                    [
-                      _c("b-icon-phone"),
-                      _vm._v("\n                        Tel: 0414888888"),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("b-icon-envelope"),
+                  [
+                    _c("b-card-text", [
                       _vm._v(
-                        "\n                        Email: picskyteam@gmail.com"
-                      ),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("b-icon-house"),
+                        "\n                            PicSky provides high quality and completely free stock photos. All photos are easy to\n                            discover through our discover pages.\n                        "
+                      )
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-card",
+                  {
+                    staticStyle: {
+                      border: "0",
+                      background: "black",
+                      color: "white"
+                    }
+                  },
+                  [
+                    _c("b-card-text", [
                       _vm._v(
-                        "\n                        Address: Adelaide, SA, 5000"
-                      ),
-                      _c("br")
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ]),
-    _vm._v(" "),
-    _c("footer", { staticStyle: { "margin-bottom": "-22px" } }, [
-      _c(
-        "div",
-        { staticStyle: { width: "80%", "margin-left": "10%" } },
-        [
-          _c(
-            "b-card-group",
-            [
-              _c(
-                "b-card",
-                {
-                  staticStyle: {
-                    border: "0",
-                    background: "transparent",
-                    color: "black"
-                  }
-                },
-                [
-                  _c("b-card-text", [
-                    _vm._v(
-                      "\n                        Copyright © 2020 PicSky Inc. All rights reserved.\n                    "
+                        "\n                            By providing free stock photos PicSky helps people all over the world to create\n                            beautiful\n                            products and designs easily.\n                        "
+                      )
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-card",
+                  {
+                    staticStyle: {
+                      border: "0",
+                      background: "black",
+                      color: "white"
+                    },
+                    attrs: { title: "Contact us" }
+                  },
+                  [
+                    _c(
+                      "b-card-text",
+                      [
+                        _c("b-icon-phone"),
+                        _vm._v("\n                            Tel: 0414888888"),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("b-icon-envelope"),
+                        _vm._v(
+                          "\n                            Email: picskyteam@gmail.com"
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("b-icon-house"),
+                        _vm._v(
+                          "\n                            Address: Adelaide, SA, 5000"
+                        ),
+                        _c("br")
+                      ],
+                      1
                     )
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-card",
-                {
-                  staticStyle: {
-                    border: "0",
-                    background: "transparent",
-                    color: "black"
-                  }
-                },
-                [
-                  _c("b-card-text", [
-                    _vm._v(
-                      "\n                        Terms of Use | Privacy Policy | Legal | Customer Service\n                    "
-                    )
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-card",
-                {
-                  staticStyle: {
-                    border: "0",
-                    background: "transparent",
-                    color: "black"
-                  }
-                },
-                [
-                  _c("b-card-text", [
-                    _vm._v("\n                        Developed by "),
-                    _c("b", [_vm._v("Wilbur")]),
-                    _vm._v(", Powered by "),
-                    _c("b", [_vm._v("Verto Group")])
-                  ])
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("footer", { staticStyle: { "margin-bottom": "-22px" } }, [
+        _c(
+          "div",
+          { staticStyle: { width: "80%", "margin-left": "10%" } },
+          [
+            _c(
+              "b-card-group",
+              [
+                _c(
+                  "b-card",
+                  {
+                    staticStyle: {
+                      border: "0",
+                      background: "transparent",
+                      color: "black"
+                    }
+                  },
+                  [
+                    _c("b-card-text", [
+                      _vm._v(
+                        "\n                            Copyright © 2020 PicSky Inc. All rights reserved.\n                        "
+                      )
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-card",
+                  {
+                    staticStyle: {
+                      border: "0",
+                      background: "transparent",
+                      color: "black"
+                    }
+                  },
+                  [
+                    _c("b-card-text", [
+                      _vm._v(
+                        "\n                            Terms of Use | Privacy Policy | Legal | Customer Service\n                        "
+                      )
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-card",
+                  {
+                    staticStyle: {
+                      border: "0",
+                      background: "transparent",
+                      color: "black"
+                    }
+                  },
+                  [
+                    _c("b-card-text", [
+                      _vm._v("\n                            Developed by "),
+                      _c("b", [_vm._v("Wilbur")]),
+                      _vm._v(", Powered by "),
+                      _c("b", [_vm._v("Verto Group")])
+                    ])
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ])
     ])
   ])
 }
@@ -79209,7 +79951,13 @@ var render = function() {
         _vm._v(" "),
         _c(
           "form",
-          { attrs: { action: "'search'", method: "post" } },
+          {
+            on: {
+              submit: function($event) {
+                return _vm.searchImage()
+              }
+            }
+          },
           [
             _c(
               "b-input-group",
@@ -79227,6 +79975,18 @@ var render = function() {
                     type: "search",
                     name: "search",
                     placeholder: "Search your favorite photos"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.clearInput($event)
+                    }
+                  },
+                  model: {
+                    value: _vm.searchName,
+                    callback: function($$v) {
+                      _vm.searchName = $$v
+                    },
+                    expression: "searchName"
                   }
                 })
               ],
@@ -80804,7 +81564,7 @@ var staticRenderFns = [
         [_vm._v("A powerful pictures searching\n                    engine")]
       ),
       _vm._v(" "),
-      _c("p", [_vm._v("Escape from your busy life, Search colourful world!")])
+      _c("p")
     ])
   },
   function() {
