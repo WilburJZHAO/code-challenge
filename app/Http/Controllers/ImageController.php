@@ -13,14 +13,6 @@ use Symfony\Component\Console\Input\Input;
 class ImageController extends Controller
 {
 
-    //全部collect列表
-    public function index()
-    {
-        $images = Image::all();
-        return view('image')->with('allImages', $images);
-    }
-
-    //post.admin/collect //添加collect
     public function store(Request $request)
     {
         $input = $request->except('_token');
@@ -30,31 +22,7 @@ class ImageController extends Controller
         } else {
 
         }
-
-//         $rules = [
-//             'name'=>'required',
-//         ];
-//
-//         $message = [
-//             'name.required'=>'Collection name cannot be null!'
-//         ];
-//
-//         $validator = Validator::make($input, $rules, $message);
-//
-//         if($validator->passes()){
-//
-//         }else{
-//             return back()->withErrors($validator);
-//         }
     }
-
-    public function create()
-    {
-        $data = Image::where('id', 1)->get();
-
-        return view('imageCreate', compact('data'));
-    }
-
 
     public function update(Request $request, $id)
     {
@@ -65,12 +33,6 @@ class ImageController extends Controller
         } else {
             return back()->with('errors', 'Error');
         }
-    }
-
-    public function edit($id)
-    {
-        $field = Image::find($id);
-        return view('imageEdit', compact('field'));
     }
 
     public function likeImage(Request $request)
@@ -160,13 +122,6 @@ class ImageController extends Controller
     {
         $result = Unplash::getRandomImages();
         return $result;
-    }
-
-    public function getDownload(Request $request)
-    {
-        $file = public_path() . $request['url_raw'];
-        response()->download($request['url_raw'], 'filename.pdf');
-        return null;
     }
 
     public function getUserLikes(Request $request)

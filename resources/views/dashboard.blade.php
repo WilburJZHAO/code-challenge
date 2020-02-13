@@ -17,22 +17,22 @@
                 <b-card
                         style="border: 0; text-align: left;"
                 >
-                    <img src="https://placekitten.com/380/200" style="width: 150px; height: 150px"/>
+                    <img src="https://picsum.photos/400/400/?image=20" style="width: 150px; height: 150px"/>
                 </b-card>
 
                 <b-card style="border: 0" title={{auth()->user()->name}}>
 
                     <b-card-text>{{auth()->user()->email}}</b-card-text>
-                    <b-button variant="outline-primary" v-b-modal.eidtProfile>Edit profile</b-button>
-                    <b-modal id="eidtProfile" centered title="Edit Profile" size="xl"
-                             scrollable>
-                        <edit-profile/>
-                        <template v-slot:modal-footer="{ ok, hide }">
-                            <b-button size="md" variant="primary" @click="ok()">
-                                Cancel
-                            </b-button>
-                        </template>
-                    </b-modal>
+                    <b-button variant="outline-primary" href="/editProfile">Edit profile</b-button>
+{{--                    <b-modal id="eidtProfile" centered title="Edit Profile" size="xl"--}}
+{{--                             scrollable>--}}
+{{--                        <edit-profile/>--}}
+{{--                        <template v-slot:modal-footer="{ ok, hide }">--}}
+{{--                            <b-button size="md" variant="primary" @click="ok()">--}}
+{{--                                Cancel--}}
+{{--                            </b-button>--}}
+{{--                        </template>--}}
+{{--                    </b-modal>--}}
                 </b-card>
             </b-card-group>
         </div>

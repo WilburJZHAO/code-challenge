@@ -211,6 +211,7 @@
                                                                             <h3>No pictures in this collection!</h3>
                                                                         </div>
                                                                     </div>
+                                                                    <div v-else>No images in this collection. Go to <a href="search">search page</a> to add.</div>
                                                                     <div class="text-center" v-else>
                                                                         <b-spinner label="Spinning"></b-spinner>
                                                                         <b-spinner type="grow"
@@ -684,9 +685,6 @@
                 var url_regular = document.getElementById(idx).dataset.url_regular;
                 var unsplash_id = document.getElementById(idx).dataset.unsplash_id;
                 var collection_id = document.getElementById(cid).dataset.collection_id;
-                if(description = ""){
-                    description = "This is an image!"
-                }
                 let data = {
                     "description": description,
                     "url_raw": url_raw,
@@ -705,9 +703,10 @@
 
                                 if (response.data == "success") {
                                     vm.isAdd[collection_index] = true;
+                                    vm.getAllCollections();
                                 }
                                 if (response.data == "exist") {
-                                    vm.isAdd[collection_index] = true;
+                                    alert('This pictue has existed in this collection!')
                                 }
 
                             }).catch(function (error) {
