@@ -19,7 +19,7 @@
                     </td>
                     <td style="width: 60%;">
                         <div id="right">
-                                <b-form-group id="input-group-1" label="First Name:" label-for="input-1">
+                                <b-form-group id="input-group-1" label="Name:" label-for="input-1">
                                     <b-form-input
                                             id="input-1"
                                             v-model="form.firstname"
@@ -27,14 +27,6 @@
                                             placeholder="Enter name"
                                             :invalid-feedback="invalidFeedback"
                                             :state = "state"
-                                    ></b-form-input>
-                                </b-form-group>
-                                <b-form-group id="input-group-2" label="Last Name:" label-for="input-2">
-                                    <b-form-input
-                                            id="input-2"
-                                            v-model="form.lastname"
-                                            required
-                                            placeholder="Enter name"
                                     ></b-form-input>
                                 </b-form-group>
                                 <b-form-group
@@ -138,19 +130,25 @@
                     confirmpassword: '',
                     role: null,
                 },
-                roles: [{text: 'Select One', value: null}, 'Normal', 'VIP'],
+                roles: [{text: 'Select One', value: null}, {text: 'Normal', value: 'normal'}, {text: 'VIP', value: 'vip'}],
                 show: true,
                 pl: 'Change profile image',
             }
         },
 
         created() {
-
+            this.getUserInfo();
         },
         mounted: function () {
 
         },
         methods: {
+            getUserInfo(){
+                this.form.email = document.getElementById('searchTag').dataset.user_email;
+                this.form.firstname = document.getElementById('searchTag').dataset.user_name;
+                this.form.password = document.getElementById('searchTag').dataset.user_password;
+                this.form.role = document.getElementById('searchTag').dataset.user_role;
+            },
             formatNames(files) {
                 if (files.length === 1) {
                     return files[0].name;

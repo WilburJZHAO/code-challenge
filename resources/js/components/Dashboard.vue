@@ -6,8 +6,51 @@
                     <b-icon-heart-fill style="color: red"></b-icon-heart-fill>
                     <b-link @click="profileSwitch('like')">Like ({{likes.length}})</b-link> &nbsp;&nbsp;&nbsp;
                     <b-icon-book style="color: black"></b-icon-book>&nbsp;<b-link @click="profileSwitch('collection')">
-                    My collections
-                </b-link>&nbsp;&nbsp;&nbsp;
+                    My collections ({{collections.length}})
+                </b-link>&nbsp;&nbsp;
+                    <b-icon-plus v-if="status == 'collection'" style="color: black; margin-left: 60%"></b-icon-plus>&nbsp;<b-link
+                        v-b-modal.create
+                        v-if="status == 'collection'">
+                    Add collection
+                </b-link>
+                    <b-modal v-if="status == 'collection'" id="create" centered title="Create collection">
+                        <template>
+                            <div>
+                                <form @submit.prevent="createCollection(i)">
+                                    <b-form-group id="input-group-1"
+                                                  label="Collection Name:"
+                                                  label-for="input-1">
+                                        <b-form-input id="input-1" required
+                                                      placeholder="Enter name"
+                                                      v-model="colName"></b-form-input>
+                                    </b-form-group>
+                                    <b-form-group id="input-group-2"
+                                                  label="Description:"
+                                                  label-for="input-2">
+                                        <b-form-textarea
+                                                id="input-2"
+                                                placeholder="Enter description"
+                                                v-model="colDescription"
+                                        ></b-form-textarea>
+                                    </b-form-group>
+                                    <div style="width: 35%;margin-left: 70%; margin-top: 2vw">
+                                        <b-button id="submit" type="submit"
+                                                  variant="primary">Submit
+                                        </b-button>
+                                        <b-button id="reset" type="reset"
+                                                  variant="danger">
+                                            Reset
+                                        </b-button>
+                                    </div>
+                                </form>
+                            </div>
+                        </template>
+                        <template v-slot:modal-footer="{ ok, hide }">
+                            <b-button size="md" variant="primary" @click="ok()">
+                                Done
+                            </b-button>
+                        </template>
+                    </b-modal>
                 </p>
             </div>
             <hr>
@@ -42,10 +85,10 @@
                                                           style="background: white; border: white; height: 35px"
                                                           @click="likeImage('image' + i)">
                                                     <b-icon :id="'likeimage' + i" icon="heart-fill"
-                                                            style="color: black;"
-                                                            :style="{display : isLikes[i] ? 'inline' : 'none'}"></b-icon>
-                                                    <b-icon :id="'dislikeimage' + i" icon="heart" style="color: black;"
-                                                            :style="{display : !isLikes[i] ? 'inline' : 'none'}"></b-icon>
+                                                            style="color: black; display: inline"
+                                                    ></b-icon>
+                                                    <b-icon :id="'dislikeimage' + i" icon="heart"
+                                                            style="color: black; display: none"></b-icon>
 
 
                                                 </b-button>
@@ -119,10 +162,10 @@
                                                                                                         @click="likeImage('c_image' + c_img)">
                                                                                                     <b-icon :id="'likec_image' + c_img"
                                                                                                             icon="heart-fill"
-                                                                                                            style="color: black; display: none"></b-icon>
+                                                                                                            style="color: black; display: inline"></b-icon>
                                                                                                     <b-icon :id="'dislikec_image' + c_img"
                                                                                                             icon="heart"
-                                                                                                            style="color: black; display: inline"></b-icon>
+                                                                                                            style="color: black; display: none"></b-icon>
                                                                                                 </b-button>
                                                                                                 <b-button
                                                                                                         variant="outline-primary"
@@ -201,7 +244,11 @@
                                                                                 <h3>No pictures in this collection!</h3>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="text-center" v-else style="min-height: 80%" >
+                                                                        <div v-else>No images in this collection. Go to
+                                                                            <a href="search">search page</a> to add.
+                                                                        </div>
+                                                                        <div class="text-center" v-else
+                                                                             style="min-height: 80%">
                                                                             <b-spinner label="Spinning"></b-spinner>
                                                                             <b-spinner type="grow"
                                                                                        label="Spinning"></b-spinner>
@@ -342,7 +389,6 @@
 
                 <!--Collection-->
                 <div v-if="status == 'collection'" style="min-height: 29%">
-
                     <div v-if="!isColEmpty" style="margin-left: 3%; margin-right: 3%">
                         <b-card-group deck>
                             <div :id="'colImages' + img"
@@ -482,6 +528,7 @@
                                                 <h3>No pictures in this collection!</h3>
                                             </div>
                                         </div>
+                                        <div v-else>No images in this collection. Go to <a href="search">search page</a> to add.</div>
                                         <div class="text-center" v-else>
                                             <b-spinner label="Spinning"></b-spinner>
                                             <b-spinner type="grow"
@@ -694,6 +741,12 @@
             },
             profileSwitch(status) {
                 this.status = status;
+                if(this.status == 'like'){
+                    this.getUserLikes();
+                }
+                if(this.status == 'collection'){
+                    this.getAllCollections();
+                }
             },
             getUserLikes() {
                 this.userId = document.getElementById('searchTag').dataset.user_id;
@@ -825,6 +878,7 @@
             ,
 
             likeImage(index) {
+                var vm = this;
                 this.userId = document.getElementById('searchTag').dataset.user_id;
                 console.log(this.userId);
                 if (this.userId == "") {
@@ -853,11 +907,13 @@
                             if (response.data == "like") {
                                 document.getElementById('like' + index).style.display = "inline";
                                 document.getElementById('dislike' + index).style.display = "none";
+                                vm.getUserLikes();
 
                             }
                             if (response.data == "dislike") {
                                 document.getElementById('like' + index).style.display = "none";
                                 document.getElementById('dislike' + index).style.display = "inline";
+                                vm.getUserLikes();
                             }
                         }).catch(function (error) {
                         alert(error);
@@ -943,9 +999,10 @@
 
                                 if (response.data == "success") {
                                     vm.isAdd[collection_index] = true;
+                                    vm.getAllCollections();
                                 }
                                 if (response.data == "exist") {
-                                    vm.isAdd[collection_index] = true;
+                                    alert('This pictue has existed in this collection!')
                                 }
 
                             }).catch(function (error) {

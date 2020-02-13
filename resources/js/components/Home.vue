@@ -207,6 +207,7 @@
                                                                             <h3>No pictures in this collection!</h3>
                                                                         </div>
                                                                     </div>
+                                                                    <div v-else>No images in this collection. Go to <a href="search">search page</a> to add.</div>
                                                                     <div class="text-center" v-else>
                                                                         <b-spinner label="Spinning"></b-spinner>
                                                                         <b-spinner type="grow"
@@ -690,9 +691,10 @@
 
                                 if (response.data == "success") {
                                     vm.isAdd[collection_index] = true;
+                                    vm.getAllCollections();
                                 }
                                 if (response.data == "exist") {
-                                    vm.isAdd[collection_index] = true;
+                                    alert('This pictue has existed in this collection!')
                                 }
 
                             }).catch(function (error) {

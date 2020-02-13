@@ -2007,14 +2007,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {
     state: function state() {
@@ -2049,14 +2041,28 @@ __webpack_require__.r(__webpack_exports__);
       roles: [{
         text: 'Select One',
         value: null
-      }, 'Normal', 'VIP'],
+      }, {
+        text: 'Normal',
+        value: 'normal'
+      }, {
+        text: 'VIP',
+        value: 'vip'
+      }],
       show: true,
       pl: 'Change profile image'
     };
   },
-  created: function created() {},
+  created: function created() {
+    this.getUserInfo();
+  },
   mounted: function mounted() {},
   methods: {
+    getUserInfo: function getUserInfo() {
+      this.form.email = document.getElementById('searchTag').dataset.user_email;
+      this.form.firstname = document.getElementById('searchTag').dataset.user_name;
+      this.form.password = document.getElementById('searchTag').dataset.user_password;
+      this.form.role = document.getElementById('searchTag').dataset.user_role;
+    },
     formatNames: function formatNames(files) {
       if (files.length === 1) {
         return files[0].name;
@@ -2120,6 +2126,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -2790,11 +2797,6 @@ __webpack_require__.r(__webpack_exports__);
       var url_regular = document.getElementById(idx).dataset.url_regular;
       var unsplash_id = document.getElementById(idx).dataset.unsplash_id;
       var collection_id = document.getElementById(cid).dataset.collection_id;
-
-      if (description = "") {
-        description = "This is an image!";
-      }
-
       var data = {
         "description": description,
         "url_raw": url_raw,
@@ -2809,10 +2811,11 @@ __webpack_require__.r(__webpack_exports__);
         axios.post('api/addToCollection', data2).then(function (response) {
           if (response.data == "success") {
             vm.isAdd[collection_index] = true;
+            vm.getAllCollections();
           }
 
           if (response.data == "exist") {
-            vm.isAdd[collection_index] = true;
+            alert('This pictue has existed in this collection!');
           }
         })["catch"](function (error) {
           alert(error);
@@ -3527,6 +3530,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3606,6 +3656,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     profileSwitch: function profileSwitch(status) {
       this.status = status;
+
+      if (this.status == 'like') {
+        this.getUserLikes();
+      }
+
+      if (this.status == 'collection') {
+        this.getAllCollections();
+      }
     },
     getUserLikes: function getUserLikes() {
       this.userId = document.getElementById('searchTag').dataset.user_id;
@@ -3733,6 +3791,7 @@ __webpack_require__.r(__webpack_exports__);
       document.getElementById(des_idx).style.visibility = "hidden";
     },
     likeImage: function likeImage(index) {
+      var vm = this;
       this.userId = document.getElementById('searchTag').dataset.user_id;
       console.log(this.userId);
 
@@ -3759,11 +3818,13 @@ __webpack_require__.r(__webpack_exports__);
           if (response.data == "like") {
             document.getElementById('like' + index).style.display = "inline";
             document.getElementById('dislike' + index).style.display = "none";
+            vm.getUserLikes();
           }
 
           if (response.data == "dislike") {
             document.getElementById('like' + index).style.display = "none";
             document.getElementById('dislike' + index).style.display = "inline";
+            vm.getUserLikes();
           }
         })["catch"](function (error) {
           alert(error);
@@ -3839,10 +3900,11 @@ __webpack_require__.r(__webpack_exports__);
         axios.post('api/addToCollection', data2).then(function (response) {
           if (response.data == "success") {
             vm.isAdd[collection_index] = true;
+            vm.getAllCollections();
           }
 
           if (response.data == "exist") {
-            vm.isAdd[collection_index] = true;
+            alert('This pictue has existed in this collection!');
           }
         })["catch"](function (error) {
           alert(error);
@@ -3941,6 +4003,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -4609,10 +4672,11 @@ __webpack_require__.r(__webpack_exports__);
         axios.post('api/addToCollection', data2).then(function (response) {
           if (response.data == "success") {
             vm.isAdd[collection_index] = true;
+            vm.getAllCollections();
           }
 
           if (response.data == "exist") {
-            vm.isAdd[collection_index] = true;
+            alert('This pictue has existed in this collection!');
           }
         })["catch"](function (error) {
           alert(error);
@@ -74910,7 +74974,7 @@ var render = function() {
                           {
                             attrs: {
                               id: "input-group-1",
-                              label: "First Name:",
+                              label: "Name:",
                               "label-for": "input-1"
                             }
                           },
@@ -74929,34 +74993,6 @@ var render = function() {
                                   _vm.$set(_vm.form, "firstname", $$v)
                                 },
                                 expression: "form.firstname"
-                              }
-                            })
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "b-form-group",
-                          {
-                            attrs: {
-                              id: "input-group-2",
-                              label: "Last Name:",
-                              "label-for": "input-2"
-                            }
-                          },
-                          [
-                            _c("b-form-input", {
-                              attrs: {
-                                id: "input-2",
-                                required: "",
-                                placeholder: "Enter name"
-                              },
-                              model: {
-                                value: _vm.form.lastname,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.form, "lastname", $$v)
-                                },
-                                expression: "form.lastname"
                               }
                             })
                           ],
@@ -76386,96 +76422,28 @@ var render = function() {
                                                                         )
                                                                       : _c(
                                                                           "div",
-                                                                          {
-                                                                            staticClass:
-                                                                              "text-center"
-                                                                          },
                                                                           [
+                                                                            _vm._v(
+                                                                              "No images in this collection. Go to "
+                                                                            ),
                                                                             _c(
-                                                                              "b-spinner",
+                                                                              "a",
                                                                               {
                                                                                 attrs: {
-                                                                                  label:
-                                                                                    "Spinning"
+                                                                                  href:
+                                                                                    "search"
                                                                                 }
-                                                                              }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "search page"
+                                                                                )
+                                                                              ]
                                                                             ),
                                                                             _vm._v(
-                                                                              " "
-                                                                            ),
-                                                                            _c(
-                                                                              "b-spinner",
-                                                                              {
-                                                                                attrs: {
-                                                                                  type:
-                                                                                    "grow",
-                                                                                  label:
-                                                                                    "Spinning"
-                                                                                }
-                                                                              }
-                                                                            ),
-                                                                            _vm._v(
-                                                                              " "
-                                                                            ),
-                                                                            _c(
-                                                                              "b-spinner",
-                                                                              {
-                                                                                attrs: {
-                                                                                  variant:
-                                                                                    "primary",
-                                                                                  label:
-                                                                                    "Spinning"
-                                                                                }
-                                                                              }
-                                                                            ),
-                                                                            _vm._v(
-                                                                              " "
-                                                                            ),
-                                                                            _c(
-                                                                              "b-spinner",
-                                                                              {
-                                                                                attrs: {
-                                                                                  variant:
-                                                                                    "primary",
-                                                                                  type:
-                                                                                    "grow",
-                                                                                  label:
-                                                                                    "Spinning"
-                                                                                }
-                                                                              }
-                                                                            ),
-                                                                            _vm._v(
-                                                                              " "
-                                                                            ),
-                                                                            _c(
-                                                                              "b-spinner",
-                                                                              {
-                                                                                attrs: {
-                                                                                  variant:
-                                                                                    "success",
-                                                                                  label:
-                                                                                    "Spinning"
-                                                                                }
-                                                                              }
-                                                                            ),
-                                                                            _vm._v(
-                                                                              " "
-                                                                            ),
-                                                                            _c(
-                                                                              "b-spinner",
-                                                                              {
-                                                                                attrs: {
-                                                                                  variant:
-                                                                                    "success",
-                                                                                  type:
-                                                                                    "grow",
-                                                                                  label:
-                                                                                    "Spinning"
-                                                                                }
-                                                                              }
+                                                                              " to add."
                                                                             )
-                                                                          ],
-                                                                          1
+                                                                          ]
                                                                         )
                                                                   ]
                                                                 ),
@@ -76927,9 +76895,201 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\n                My collections\n            ")]
+              [
+                _vm._v(
+                  "\n                My collections (" +
+                    _vm._s(_vm.collections.length) +
+                    ")\n            "
+                )
+              ]
             ),
-            _vm._v("   \n            ")
+            _vm._v("  \n                "),
+            _vm.status == "collection"
+              ? _c("b-icon-plus", {
+                  staticStyle: { color: "black", "margin-left": "60%" }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.status == "collection"
+              ? _c(
+                  "b-link",
+                  {
+                    directives: [
+                      {
+                        name: "b-modal",
+                        rawName: "v-b-modal.create",
+                        modifiers: { create: true }
+                      }
+                    ]
+                  },
+                  [_vm._v("\n                Add collection\n            ")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.status == "collection"
+              ? _c(
+                  "b-modal",
+                  {
+                    attrs: {
+                      id: "create",
+                      centered: "",
+                      title: "Create collection"
+                    },
+                    scopedSlots: _vm._u(
+                      [
+                        {
+                          key: "modal-footer",
+                          fn: function(ref) {
+                            var ok = ref.ok
+                            var hide = ref.hide
+                            return [
+                              _c(
+                                "b-button",
+                                {
+                                  attrs: { size: "md", variant: "primary" },
+                                  on: {
+                                    click: function($event) {
+                                      return ok()
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                            Done\n                        "
+                                  )
+                                ]
+                              )
+                            ]
+                          }
+                        }
+                      ],
+                      null,
+                      false,
+                      1401770840
+                    )
+                  },
+                  [
+                    [
+                      _c("div", [
+                        _c(
+                          "form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.createCollection(_vm.i)
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "b-form-group",
+                              {
+                                attrs: {
+                                  id: "input-group-1",
+                                  label: "Collection Name:",
+                                  "label-for": "input-1"
+                                }
+                              },
+                              [
+                                _c("b-form-input", {
+                                  attrs: {
+                                    id: "input-1",
+                                    required: "",
+                                    placeholder: "Enter name"
+                                  },
+                                  model: {
+                                    value: _vm.colName,
+                                    callback: function($$v) {
+                                      _vm.colName = $$v
+                                    },
+                                    expression: "colName"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-form-group",
+                              {
+                                attrs: {
+                                  id: "input-group-2",
+                                  label: "Description:",
+                                  "label-for": "input-2"
+                                }
+                              },
+                              [
+                                _c("b-form-textarea", {
+                                  attrs: {
+                                    id: "input-2",
+                                    placeholder: "Enter description"
+                                  },
+                                  model: {
+                                    value: _vm.colDescription,
+                                    callback: function($$v) {
+                                      _vm.colDescription = $$v
+                                    },
+                                    expression: "colDescription"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticStyle: {
+                                  width: "35%",
+                                  "margin-left": "70%",
+                                  "margin-top": "2vw"
+                                }
+                              },
+                              [
+                                _c(
+                                  "b-button",
+                                  {
+                                    attrs: {
+                                      id: "submit",
+                                      type: "submit",
+                                      variant: "primary"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "Submit\n                                    "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "b-button",
+                                  {
+                                    attrs: {
+                                      id: "reset",
+                                      type: "reset",
+                                      variant: "danger"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                        Reset\n                                    "
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    ]
+                  ],
+                  2
+                )
+              : _vm._e()
           ],
           1
         )
@@ -77037,11 +77197,9 @@ var render = function() {
                                             },
                                             [
                                               _c("b-icon", {
-                                                staticStyle: { color: "black" },
-                                                style: {
-                                                  display: _vm.isLikes[i]
-                                                    ? "inline"
-                                                    : "none"
+                                                staticStyle: {
+                                                  color: "black",
+                                                  display: "inline"
                                                 },
                                                 attrs: {
                                                   id: "likeimage" + i,
@@ -77050,11 +77208,9 @@ var render = function() {
                                               }),
                                               _vm._v(" "),
                                               _c("b-icon", {
-                                                staticStyle: { color: "black" },
-                                                style: {
-                                                  display: !_vm.isLikes[i]
-                                                    ? "inline"
-                                                    : "none"
+                                                staticStyle: {
+                                                  color: "black",
+                                                  display: "none"
                                                 },
                                                 attrs: {
                                                   id: "dislikeimage" + i,
@@ -77729,7 +77885,7 @@ var render = function() {
                                                                                                                     color:
                                                                                                                       "black",
                                                                                                                     display:
-                                                                                                                      "none"
+                                                                                                                      "inline"
                                                                                                                   },
                                                                                                                   attrs: {
                                                                                                                     id:
@@ -77750,7 +77906,7 @@ var render = function() {
                                                                                                                     color:
                                                                                                                       "black",
                                                                                                                     display:
-                                                                                                                      "inline"
+                                                                                                                      "none"
                                                                                                                   },
                                                                                                                   attrs: {
                                                                                                                     id:
@@ -78043,100 +78199,28 @@ var render = function() {
                                                                             )
                                                                           : _c(
                                                                               "div",
-                                                                              {
-                                                                                staticClass:
-                                                                                  "text-center",
-                                                                                staticStyle: {
-                                                                                  "min-height":
-                                                                                    "80%"
-                                                                                }
-                                                                              },
                                                                               [
+                                                                                _vm._v(
+                                                                                  "No images in this collection. Go to\n                                                                        "
+                                                                                ),
                                                                                 _c(
-                                                                                  "b-spinner",
+                                                                                  "a",
                                                                                   {
                                                                                     attrs: {
-                                                                                      label:
-                                                                                        "Spinning"
+                                                                                      href:
+                                                                                        "search"
                                                                                     }
-                                                                                  }
+                                                                                  },
+                                                                                  [
+                                                                                    _vm._v(
+                                                                                      "search page"
+                                                                                    )
+                                                                                  ]
                                                                                 ),
                                                                                 _vm._v(
-                                                                                  " "
-                                                                                ),
-                                                                                _c(
-                                                                                  "b-spinner",
-                                                                                  {
-                                                                                    attrs: {
-                                                                                      type:
-                                                                                        "grow",
-                                                                                      label:
-                                                                                        "Spinning"
-                                                                                    }
-                                                                                  }
-                                                                                ),
-                                                                                _vm._v(
-                                                                                  " "
-                                                                                ),
-                                                                                _c(
-                                                                                  "b-spinner",
-                                                                                  {
-                                                                                    attrs: {
-                                                                                      variant:
-                                                                                        "primary",
-                                                                                      label:
-                                                                                        "Spinning"
-                                                                                    }
-                                                                                  }
-                                                                                ),
-                                                                                _vm._v(
-                                                                                  " "
-                                                                                ),
-                                                                                _c(
-                                                                                  "b-spinner",
-                                                                                  {
-                                                                                    attrs: {
-                                                                                      variant:
-                                                                                        "primary",
-                                                                                      type:
-                                                                                        "grow",
-                                                                                      label:
-                                                                                        "Spinning"
-                                                                                    }
-                                                                                  }
-                                                                                ),
-                                                                                _vm._v(
-                                                                                  " "
-                                                                                ),
-                                                                                _c(
-                                                                                  "b-spinner",
-                                                                                  {
-                                                                                    attrs: {
-                                                                                      variant:
-                                                                                        "success",
-                                                                                      label:
-                                                                                        "Spinning"
-                                                                                    }
-                                                                                  }
-                                                                                ),
-                                                                                _vm._v(
-                                                                                  " "
-                                                                                ),
-                                                                                _c(
-                                                                                  "b-spinner",
-                                                                                  {
-                                                                                    attrs: {
-                                                                                      variant:
-                                                                                        "success",
-                                                                                      type:
-                                                                                        "grow",
-                                                                                      label:
-                                                                                        "Spinning"
-                                                                                    }
-                                                                                  }
+                                                                                  " to add.\n                                                                    "
                                                                                 )
-                                                                              ],
-                                                                              1
+                                                                              ]
                                                                             )
                                                                       ]
                                                                     ),
@@ -78883,53 +78967,17 @@ var render = function() {
                                               ],
                                               1
                                             )
-                                          : _c(
-                                              "div",
-                                              { staticClass: "text-center" },
-                                              [
-                                                _c("b-spinner", {
-                                                  attrs: { label: "Spinning" }
-                                                }),
-                                                _vm._v(" "),
-                                                _c("b-spinner", {
-                                                  attrs: {
-                                                    type: "grow",
-                                                    label: "Spinning"
-                                                  }
-                                                }),
-                                                _vm._v(" "),
-                                                _c("b-spinner", {
-                                                  attrs: {
-                                                    variant: "primary",
-                                                    label: "Spinning"
-                                                  }
-                                                }),
-                                                _vm._v(" "),
-                                                _c("b-spinner", {
-                                                  attrs: {
-                                                    variant: "primary",
-                                                    type: "grow",
-                                                    label: "Spinning"
-                                                  }
-                                                }),
-                                                _vm._v(" "),
-                                                _c("b-spinner", {
-                                                  attrs: {
-                                                    variant: "success",
-                                                    label: "Spinning"
-                                                  }
-                                                }),
-                                                _vm._v(" "),
-                                                _c("b-spinner", {
-                                                  attrs: {
-                                                    variant: "success",
-                                                    type: "grow",
-                                                    label: "Spinning"
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            )
+                                          : _c("div", [
+                                              _vm._v(
+                                                "No images in this collection. Go to "
+                                              ),
+                                              _c(
+                                                "a",
+                                                { attrs: { href: "search" } },
+                                                [_vm._v("search page")]
+                                              ),
+                                              _vm._v(" to add.")
+                                            ])
                                       ]
                                     ),
                                     _vm._v(" "),
@@ -80484,96 +80532,28 @@ var render = function() {
                                                                         )
                                                                       : _c(
                                                                           "div",
-                                                                          {
-                                                                            staticClass:
-                                                                              "text-center"
-                                                                          },
                                                                           [
+                                                                            _vm._v(
+                                                                              "No images in this collection. Go to "
+                                                                            ),
                                                                             _c(
-                                                                              "b-spinner",
+                                                                              "a",
                                                                               {
                                                                                 attrs: {
-                                                                                  label:
-                                                                                    "Spinning"
+                                                                                  href:
+                                                                                    "search"
                                                                                 }
-                                                                              }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "search page"
+                                                                                )
+                                                                              ]
                                                                             ),
                                                                             _vm._v(
-                                                                              " "
-                                                                            ),
-                                                                            _c(
-                                                                              "b-spinner",
-                                                                              {
-                                                                                attrs: {
-                                                                                  type:
-                                                                                    "grow",
-                                                                                  label:
-                                                                                    "Spinning"
-                                                                                }
-                                                                              }
-                                                                            ),
-                                                                            _vm._v(
-                                                                              " "
-                                                                            ),
-                                                                            _c(
-                                                                              "b-spinner",
-                                                                              {
-                                                                                attrs: {
-                                                                                  variant:
-                                                                                    "primary",
-                                                                                  label:
-                                                                                    "Spinning"
-                                                                                }
-                                                                              }
-                                                                            ),
-                                                                            _vm._v(
-                                                                              " "
-                                                                            ),
-                                                                            _c(
-                                                                              "b-spinner",
-                                                                              {
-                                                                                attrs: {
-                                                                                  variant:
-                                                                                    "primary",
-                                                                                  type:
-                                                                                    "grow",
-                                                                                  label:
-                                                                                    "Spinning"
-                                                                                }
-                                                                              }
-                                                                            ),
-                                                                            _vm._v(
-                                                                              " "
-                                                                            ),
-                                                                            _c(
-                                                                              "b-spinner",
-                                                                              {
-                                                                                attrs: {
-                                                                                  variant:
-                                                                                    "success",
-                                                                                  label:
-                                                                                    "Spinning"
-                                                                                }
-                                                                              }
-                                                                            ),
-                                                                            _vm._v(
-                                                                              " "
-                                                                            ),
-                                                                            _c(
-                                                                              "b-spinner",
-                                                                              {
-                                                                                attrs: {
-                                                                                  variant:
-                                                                                    "success",
-                                                                                  type:
-                                                                                    "grow",
-                                                                                  label:
-                                                                                    "Spinning"
-                                                                                }
-                                                                              }
+                                                                              " to add."
                                                                             )
-                                                                          ],
-                                                                          1
+                                                                          ]
                                                                         )
                                                                   ]
                                                                 ),
